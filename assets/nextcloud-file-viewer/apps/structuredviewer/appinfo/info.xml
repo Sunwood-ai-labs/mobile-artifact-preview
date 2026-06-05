@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+  <id>structuredviewer</id>
+  <name>Structured Viewer</name>
+  <summary>View JSON and XML files with a mobile-friendly structured layout.</summary>
+  <description>Local LAN-only viewer for agent-generated JSON and XML files.</description>
+  <version>0.2.0</version>
+  <licence>agpl</licence>
+  <author>Codex</author>
+  <namespace>StructuredViewer</namespace>
+  <category>files</category>
+  <dependencies>
+    <php min-version="8.2" max-version="8.5"/>
+    <nextcloud min-version="33" max-version="33"/>
+  </dependencies>
+</info>

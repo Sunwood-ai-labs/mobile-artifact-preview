@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Artifact Preview"
+  short_description: "Preview dev artifacts from mobile devices"
+  default_prompt: "Use $mobile-artifact-preview to expose generated artifacts through a mobile-checkable LAN viewer and return clickable links."

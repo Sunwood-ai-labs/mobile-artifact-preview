@@ -1,0 +1,22 @@
+services:
+  nextcloud:
+    image: nextcloud:apache
+    container_name: agent-nextcloud
+    ports:
+      - "8793:80"
+    environment:
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: admin
+      NEXTCLOUD_TRUSTED_DOMAINS: "${NEXTCLOUD_TRUSTED_DOMAINS:-localhost 127.0.0.1}"
+      SQLITE_DATABASE: nextcloud
+      PHP_MEMORY_LIMIT: 1024M
+      PHP_UPLOAD_LIMIT: 4096M
+    volumes:
+      - nextcloud-data:/var/www/html
+      - ./apps/structuredviewer:/var/www/html/custom_apps/structuredviewer:ro
+      - ${MOBILE_ARTIFACT_PROJECTS_DIR:-${HOME}/Prj}:/external/prj:ro
+      - ${MOBILE_ARTIFACT_CODEX_DIR:-${HOME}/.codex}:/external/codex:ro
+    restart: unless-stopped
+
+volumes:
+  nextcloud-data:

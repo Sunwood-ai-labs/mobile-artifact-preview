@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+.next/
+dist/
+build/
+coverage/
+*.log
+
+# Runtime data must not be committed.
+assets/nextcloud-file-viewer/data/
+assets/nextcloud-file-viewer/evidence/
+assets/nextcloud-file-viewer/sample-gallery/*.png
+assets/nextcloud-file-viewer/sample-gallery/*.pdf
