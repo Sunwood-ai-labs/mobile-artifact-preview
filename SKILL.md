@@ -20,6 +20,12 @@ This skill supports workflows such as:
 
 When the user asks to show, preview, display, or confirm an artifact, treat the visible mobile-checkable surface as the deliverable.
 
+For every newly created or updated user-checkable artifact, especially generated
+images, screenshots, HTML, SVG, JSON/XML previews, PDFs, diagrams, reports, or
+other visual outputs, include a clickable URL in the chat whenever a LAN viewer
+or Nextcloud route is available. Do not make the user ask separately for the
+link.
+
 Do not stop at "file created" or a raw local path. Return:
 
 1. A clickable link if a LAN viewer or Nextcloud route is available.
@@ -82,9 +88,10 @@ http://<host-ip>:8793/apps/files/files?dir=/Project/<relative-folder>
 2. If the artifact is an image intended for chat, call `view_image` on that exact path.
 3. If the artifact is under the configured projects directory, build the Nextcloud `/Project/...` link and shallow-scan the folder if new files may not be indexed.
 4. If the artifact is under the configured Codex directory, build the Nextcloud `/Codex/...` link when the mount is available.
-5. For HTML/SVG/JSON/XML/PDF or UI work, verify with a real browser surface. Use a mobile viewport for mobile-facing claims.
-6. Put persistent proof screenshots in a nearby `evidence/` folder, then include both the evidence folder link and local path.
-7. In the final response, include the clickable link first, then local path, then a short verification note.
+5. Include that clickable URL in the same chat response as the generated artifact, before or next to the local path.
+6. For HTML/SVG/JSON/XML/PDF or UI work, verify with a real browser surface. Use a mobile viewport for mobile-facing claims.
+7. Put persistent proof screenshots in a nearby `evidence/` folder, then include both the evidence folder link and local path.
+8. In the final response, include the clickable link first, then local path, then a short verification note.
 
 ## Mobile Verification
 
