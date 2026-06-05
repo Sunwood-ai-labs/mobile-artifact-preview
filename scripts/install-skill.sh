@@ -11,11 +11,10 @@ mkdir -p "$dest_dir"
 
 rsync -a \
   --exclude '.git/' \
-  --exclude '.github/' \
-  --exclude 'docs/' \
-  --exclude 'README.md' \
-  --exclude 'README.ja.md' \
-  --exclude 'LICENSE' \
+  --exclude 'assets/nextcloud-file-viewer/data/' \
+  --exclude 'assets/nextcloud-file-viewer/evidence/' \
+  --exclude 'assets/nextcloud-file-viewer/sample-gallery/*.png' \
+  --exclude 'assets/nextcloud-file-viewer/sample-gallery/*.pdf' \
   "$repo_dir/" "$dest_dir/"
 
 echo "Installed mobile-artifact-preview skill to:"
