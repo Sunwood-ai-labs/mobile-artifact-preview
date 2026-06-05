@@ -2,6 +2,10 @@
 
 [English README](README.md)
 
+<p align="center">
+  <img src="docs/images/repository-header.png" alt="Mobile Artifact Preview repository header" width="100%">
+</p>
+
 [![Validate](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
