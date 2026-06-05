@@ -40,9 +40,8 @@ Codex やエージェントが作った生成物を、スマホやタブレッ�
 ## リポジトリ構成
 
 ```text
-skill/
-  SKILL.md
-  agents/openai.yaml
+SKILL.md
+agents/openai.yaml
 
 assets/nextcloud-file-viewer/
   compose.yaml
@@ -63,7 +62,7 @@ README で意味のある小さなスクショだけを残しています。
 ./scripts/install-skill.sh
 ```
 
-インストール先:
+このリポジトリをスキルとしてインストールする先:
 
 ```text
 ~/.codex/skills/mobile-artifact-preview

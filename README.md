@@ -41,9 +41,8 @@ mobile surfaces this repo is built around.
 ## Repository Layout
 
 ```text
-skill/
-  SKILL.md
-  agents/openai.yaml
+SKILL.md
+agents/openai.yaml
 
 assets/nextcloud-file-viewer/
   compose.yaml
@@ -65,7 +64,7 @@ kept.
 ./scripts/install-skill.sh
 ```
 
-This installs the skill to:
+This installs this repository as a skill to:
 
 ```text
 ~/.codex/skills/mobile-artifact-preview

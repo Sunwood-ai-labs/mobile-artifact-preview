@@ -8,7 +8,7 @@ python3 - <<'PY'
 from pathlib import Path
 import sys
 
-text = Path("skill/SKILL.md").read_text(encoding="utf-8")
+text = Path("SKILL.md").read_text(encoding="utf-8")
 required = [
     "---",
     "name: mobile-artifact-preview",
