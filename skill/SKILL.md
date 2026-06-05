@@ -41,46 +41,47 @@ Choose the narrowest surface that fits the artifact:
 | JSON/XML structure | Structured preview or companion `.html` preview |
 | Repeated screenshots/evidence | Project-local `evidence/` folder |
 
-## Known Local Instance
+## Nextcloud Viewer Package
 
-For files under `/Users/admin/Prj`, prefer the current Nextcloud viewer when it is running:
+When the bundled Nextcloud viewer is available, prefer it for project and Codex
+artifact links:
 
 ```text
-URL: http://192.168.11.8:8793/
-Login: admin / admin
-Project mount: /Users/admin/Prj -> /Project
-Codex mount: /Users/admin/.codex -> /Codex
+Default URL: http://127.0.0.1:8793/
+Default login: admin / admin
+Project mount: ${MOBILE_ARTIFACT_PROJECTS_DIR:-${HOME}/Prj} -> /Project
+Codex mount: ${MOBILE_ARTIFACT_CODEX_DIR:-${HOME}/.codex} -> /Codex
 Project folder link pattern:
-http://192.168.11.8:8793/apps/files/files?dir=/Project/<path-under-/Users/admin/Prj>
+http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-projects-dir>
 ```
 
-Current implementation source:
+Bundled implementation source in this repository:
 
 ```text
-/Users/admin/Prj/nextcloud-file-viewer
+assets/nextcloud-file-viewer
 ```
 
 Useful checks:
 
 ```bash
-cd /Users/admin/Prj/nextcloud-file-viewer
+cd assets/nextcloud-file-viewer
 docker compose ps
 docker exec -u www-data agent-nextcloud php occ app:list | rg 'structuredviewer|htmlviewer|text|viewer|pdf'
 docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/Project/<relative-folder>' --shallow
 ```
 
-For a folder link under `/Users/admin/Prj/foo/bar`, return:
+For a folder link under the projects directory, return:
 
 ```text
-http://192.168.11.8:8793/apps/files/files?dir=/Project/foo/bar
+http://<host-ip>:8793/apps/files/files?dir=/Project/<relative-folder>
 ```
 
 ## Workflow
 
 1. Identify the artifact path and file type.
 2. If the artifact is an image intended for chat, call `view_image` on that exact path.
-3. If the artifact is under `/Users/admin/Prj`, build the Nextcloud `/Project/...` link and shallow-scan the folder if new files may not be indexed.
-4. If the artifact is under `/Users/admin/.codex`, build the Nextcloud `/Codex/...` link when the mount is available.
+3. If the artifact is under the configured projects directory, build the Nextcloud `/Project/...` link and shallow-scan the folder if new files may not be indexed.
+4. If the artifact is under the configured Codex directory, build the Nextcloud `/Codex/...` link when the mount is available.
 5. For HTML/SVG/JSON/XML/PDF or UI work, verify with a real browser surface. Use a mobile viewport for mobile-facing claims.
 6. Put persistent proof screenshots in a nearby `evidence/` folder, then include both the evidence folder link and local path.
 7. In the final response, include the clickable link first, then local path, then a short verification note.
@@ -132,10 +133,10 @@ Keep the final response short and proof-oriented:
 
 ```text
 モバイル確認用リンク:
-[Nextcloud sample-gallery](http://192.168.11.8:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery)
+[Nextcloud sample-gallery](http://<host-ip>:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery)
 
 ローカルパス:
-/Users/admin/Prj/nextcloud-file-viewer/sample-gallery
+<projects-dir>/nextcloud-file-viewer/sample-gallery
 
 確認:
 390x844 のモバイル viewport で表示確認済み。JSON/XML は structuredviewer で構造化表示されています。

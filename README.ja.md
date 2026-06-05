@@ -1,0 +1,166 @@
+# Mobile Artifact Preview
+
+[English README](README.md)
+
+[![Validate](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+Codex やエージェントが作った生成物を、スマホやタブレットから確認するための
+スキルと LAN ビューアの一括パッケージです。
+
+画像、スクリーンショット、HTML、SVG、JSON、XML、PDF、draw.io export、
+レポートなどを作ったときに、ローカルパスだけで終わらせず、モバイルで開ける
+リンク、ローカル fallback、表示確認の証拠を返すために使います。
+
+## 何を解決するか
+
+エージェントは便利なファイルを作れますが、モバイルチャット上では見えなかったり、
+リンクがなくて確認しづらいことがあります。このパッケージは、ローカルの開発成果物を
+スマホ確認できる面に載せます。
+
+- `~/Prj` を `Project` として Nextcloud にマウントします。
+- `~/.codex` を `Codex` として Nextcloud にマウントします。
+- JSON と XML は構造化されたモバイルプレビューで開きます。
+- HTML、SVG、Markdown、画像、PDF は Nextcloud の viewer で確認できます。
+- スキル側で、Codex にリンクと検証証拠を返すよう指示します。
+
+## 実表示の証拠
+
+以下のスクリーンショットは、README の装飾ではなく、このリポジトリが狙っている
+実際のモバイル表示面の証拠として入れています。
+
+| モバイルファイル一覧 | JSON 構造化表示 | XML 構造化表示 |
+| --- | --- | --- |
+| ![Nextcloud sample gallery on mobile](docs/images/sample-gallery-mobile.png) | ![JSON structured preview on mobile](docs/images/json-preview-mobile.png) | ![XML structured preview on mobile](docs/images/xml-preview-mobile.png) |
+
+| HTML 表示 | SVG 表示 |
+| --- | --- |
+| ![HTML preview on mobile](docs/images/html-preview-mobile.png) | ![SVG preview on mobile](docs/images/svg-preview-mobile.png) |
+
+## リポジトリ構成
+
+```text
+skill/
+  SKILL.md
+  agents/openai.yaml
+
+assets/nextcloud-file-viewer/
+  compose.yaml
+  setup-external-storage.sh
+  apps/structuredviewer/
+  scripts/render-structured-previews.mjs
+
+docs/images/
+  README で使う代表的なモバイル検証スクショ
+```
+
+ランタイムデータ、全量の evidence、生成された重いサンプルバイナリは除外しています。
+README で意味のある小さなスクショだけを残しています。
+
+## スキルのインストール
+
+```bash
+./scripts/install-skill.sh
+```
+
+インストール先:
+
+```text
+~/.codex/skills/mobile-artifact-preview
+```
+
+明示的に使う場合:
+
+```text
+$mobile-artifact-preview
+```
+
+## Nextcloud ビューアの起動
+
+```bash
+cd assets/nextcloud-file-viewer
+docker compose up -d
+./setup-external-storage.sh
+```
+
+デフォルトURL:
+
+```text
+http://127.0.0.1:8793/
+```
+
+デフォルトログイン:
+
+```text
+admin / admin
+```
+
+LAN やスマホから開く場合は、ホストの LAN IP を trusted domains に入れます。
+
+```bash
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+docker compose up -d
+```
+
+その後、スマホから以下を開きます。
+
+```text
+http://192.168.x.x:8793/
+```
+
+## 設定
+
+マウントするフォルダを変える場合:
+
+```bash
+MOBILE_ARTIFACT_PROJECTS_DIR=/path/to/projects \
+MOBILE_ARTIFACT_CODEX_DIR=/path/to/.codex \
+docker compose up -d
+```
+
+ポートを変える場合:
+
+```bash
+MOBILE_ARTIFACT_NEXTCLOUD_PORT=8893 docker compose up -d
+```
+
+初期管理ユーザーを変える場合:
+
+```bash
+NEXTCLOUD_ADMIN_USER=admin \
+NEXTCLOUD_ADMIN_PASSWORD='change-me' \
+docker compose up -d
+```
+
+`NEXTCLOUD_ADMIN_USER` を変えた場合は、`setup-external-storage.sh` 実行時にも
+同じ値を渡してください。
+
+## モバイルリンクの形
+
+`~/Prj` 配下のフォルダは、次の形でスマホから開けます。
+
+```text
+http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-Prj>
+```
+
+例:
+
+```text
+http://192.168.x.x:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
+```
+
+## 検証
+
+セットアップ後やパッケージ変更後は以下を確認します。
+
+```bash
+./scripts/validate-package.sh
+```
+
+実際のモバイル表示確認では、`390x844` のようなスマホサイズ viewport で、
+ヘッダーの見切れ、左右のはみ出し、押せないボタン、JSON/XML の構造化表示を確認します。
+
+## セキュリティ
+
+これは LAN 内の開発プレビュー用です。デフォルト認証情報のまま public internet に
+Nextcloud ポートを公開しないでください。

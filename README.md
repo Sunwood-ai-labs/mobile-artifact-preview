@@ -1,13 +1,44 @@
 # Mobile Artifact Preview
 
-Codex skill and LAN viewer package for checking local development artifacts from
-mobile devices.
+[日本語 README](README.ja.md)
 
-The goal is simple: when an agent creates an image, screenshot, HTML page, SVG,
-JSON, XML, PDF, draw.io export, or report, the user should get a mobile-openable
-link and a verified preview surface instead of only a local file path.
+[![Validate](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/mobile-artifact-preview/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## Contents
+Codex skill plus a small Nextcloud-based LAN viewer for checking local
+development artifacts from a phone or tablet.
+
+When an agent creates an image, screenshot, HTML page, SVG, JSON, XML, PDF,
+draw.io export, or report, this package helps Codex return a mobile-openable
+link, a local fallback path, and proof that the artifact actually renders.
+
+## What This Solves
+
+Codex and other agents often create useful files that are hard to inspect from
+mobile chat alone. This package turns local project files into a mobile-friendly
+preview surface:
+
+- `~/Prj` is mounted as `Project`.
+- `~/.codex` is mounted as `Codex`.
+- JSON and XML get structured mobile previews.
+- HTML, SVG, Markdown, images, and PDFs can be opened through Nextcloud.
+- The skill tells Codex to return links and verification evidence, not only
+  local file paths.
+
+## Evidence
+
+These screenshots are intentionally included because they document the real
+mobile surfaces this repo is built around.
+
+| Mobile file gallery | JSON structure | XML structure |
+| --- | --- | --- |
+| ![Nextcloud sample gallery on mobile](docs/images/sample-gallery-mobile.png) | ![JSON structured preview on mobile](docs/images/json-preview-mobile.png) | ![XML structured preview on mobile](docs/images/xml-preview-mobile.png) |
+
+| HTML preview | SVG preview |
+| --- | --- |
+| ![HTML preview on mobile](docs/images/html-preview-mobile.png) | ![SVG preview on mobile](docs/images/svg-preview-mobile.png) |
+
+## Repository Layout
 
 ```text
 skill/
@@ -19,7 +50,14 @@ assets/nextcloud-file-viewer/
   setup-external-storage.sh
   apps/structuredviewer/
   scripts/render-structured-previews.mjs
+
+docs/images/
+  selected mobile verification screenshots
 ```
+
+Runtime data, full evidence dumps, and generated sample binaries are excluded
+from the repository. Only the small screenshots that explain the package are
+kept.
 
 ## Install the Skill
 
@@ -27,10 +65,16 @@ assets/nextcloud-file-viewer/
 ./scripts/install-skill.sh
 ```
 
-This copies `skill/` to:
+This installs the skill to:
 
 ```text
 ~/.codex/skills/mobile-artifact-preview
+```
+
+After that, invoke it explicitly with:
+
+```text
+$mobile-artifact-preview
 ```
 
 ## Start the Nextcloud Viewer
@@ -41,7 +85,7 @@ docker compose up -d
 ./setup-external-storage.sh
 ```
 
-Default URL:
+Default local URL:
 
 ```text
 http://127.0.0.1:8793/
@@ -53,36 +97,49 @@ Default login:
 admin / admin
 ```
 
-For LAN/mobile access, open the same port through the host LAN IP, for example:
+For LAN/mobile access, include the host LAN IP in trusted domains:
+
+```bash
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+docker compose up -d
+```
+
+Then open:
 
 ```text
 http://192.168.x.x:8793/
 ```
 
-## What It Mounts
+## Configuration
 
-The bundled Compose file mounts these host folders into Nextcloud as read-only
-external storage:
+Override the mounted folders:
 
-```text
-~/Prj      -> Project
-~/.codex   -> Codex
+```bash
+MOBILE_ARTIFACT_PROJECTS_DIR=/path/to/projects \
+MOBILE_ARTIFACT_CODEX_DIR=/path/to/.codex \
+docker compose up -d
 ```
 
-This matches the intended Codex workflow: project artifacts and Codex-generated
-files are visible from a phone without copying them manually.
+Override the published port:
 
-## Structured Previews
+```bash
+MOBILE_ARTIFACT_NEXTCLOUD_PORT=8893 docker compose up -d
+```
 
-The bundled `structuredviewer` Nextcloud app improves JSON and XML previews:
+Override the initial Nextcloud admin account:
 
-- JSON opens as a collapsible object/array tree.
-- XML opens as a structured element tree.
-- HTML and SVG can be viewed through the regular Nextcloud preview/viewer stack.
+```bash
+NEXTCLOUD_ADMIN_USER=admin \
+NEXTCLOUD_ADMIN_PASSWORD='change-me' \
+docker compose up -d
+```
 
-## Artifact Links
+If you change `NEXTCLOUD_ADMIN_USER`, pass the same value when running
+`setup-external-storage.sh`.
 
-For a file or folder under `~/Prj`, the mobile Nextcloud route is:
+## Mobile Link Pattern
+
+For a project folder under `~/Prj`, use:
 
 ```text
 http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-Prj>
@@ -91,19 +148,22 @@ http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-Prj>
 Example:
 
 ```text
-http://192.168.11.8:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
+http://192.168.x.x:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
 ```
 
-## Verification Rule
+## Verification
 
-The skill is designed to make Codex report proof, not just paths:
+Run these checks after setup or package changes:
 
-- clickable mobile-accessible link
-- local fallback path
-- display verification surface, such as chat image display, browser screenshot,
-  mobile viewport check, WebDAV listing, or Nextcloud app status
+```bash
+./scripts/validate-package.sh
+```
+
+When testing real mobile rendering, use a phone-sized viewport such as
+`390x844` and check for clipped headers, off-screen content, unreachable
+buttons, and JSON/XML structure rendering.
 
 ## Security
 
-This package is for LAN-only development preview. Do not expose the Nextcloud
-port to the public internet with the default credentials.
+This is a LAN-only development preview package. Do not expose the Nextcloud
+port to the public internet with default credentials.

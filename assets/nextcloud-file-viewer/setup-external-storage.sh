@@ -2,6 +2,7 @@
 set -euo pipefail
 
 container="${NEXTCLOUD_CONTAINER:-agent-nextcloud}"
+user="${NEXTCLOUD_ADMIN_USER:-admin}"
 
 docker exec -u www-data "$container" php occ app:enable files_external
 docker exec -u www-data "$container" php occ config:system:set filesystem_check_changes --type=integer --value=1
@@ -16,5 +17,5 @@ fi
 
 docker exec -u www-data "$container" php occ files_external:list
 
-docker exec -u www-data "$container" php occ files:scan --path='admin/files/Project' --shallow --quiet || true
-docker exec -u www-data "$container" php occ files:scan --path='admin/files/Codex' --shallow --quiet || true
+docker exec -u www-data "$container" php occ files:scan --path="$user/files/Project" --shallow --quiet || true
+docker exec -u www-data "$container" php occ files:scan --path="$user/files/Codex" --shallow --quiet || true

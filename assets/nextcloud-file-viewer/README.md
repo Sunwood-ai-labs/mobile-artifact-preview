@@ -1,11 +1,15 @@
 # Nextcloud File Viewer
 
-LAN Nextcloud instance for browsing local agent files.
+Small LAN-only Nextcloud setup for browsing local agent and project files from
+mobile devices.
+
+This directory is bundled by the `mobile-artifact-preview` Codex skill package.
 
 ## Start
 
 ```bash
 docker compose up -d
+./setup-external-storage.sh
 ```
 
 Open:
@@ -14,18 +18,38 @@ Open:
 http://127.0.0.1:8793/
 ```
 
-Login:
+Default login:
 
 ```text
 admin / admin
 ```
 
-Mounted host folders:
+## LAN Access
 
-- `${HOME}/Prj` -> `/external/prj` read-only
-- `${HOME}/.codex` -> `/external/codex` read-only
+For access from a phone, include the host LAN IP in trusted domains before the
+first boot:
 
-Override those paths when needed:
+```bash
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+docker compose up -d
+```
+
+Then open:
+
+```text
+http://192.168.x.x:8793/
+```
+
+## Mounted Host Folders
+
+By default:
+
+```text
+${HOME}/Prj    -> Project
+${HOME}/.codex -> Codex
+```
+
+Override:
 
 ```bash
 MOBILE_ARTIFACT_PROJECTS_DIR=/path/to/projects \
@@ -33,80 +57,83 @@ MOBILE_ARTIFACT_CODEX_DIR=/path/to/.codex \
 docker compose up -d
 ```
 
-For LAN/mobile access, include the host LAN IP in trusted domains:
+## External Storage Setup
 
-```bash
-NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" docker compose up -d
+`setup-external-storage.sh` enables Nextcloud external storage and registers:
+
+```text
+Project -> /external/prj
+Codex   -> /external/codex
 ```
-
-After first boot, run:
-
-```bash
-./setup-external-storage.sh
-```
-
-This enables Nextcloud external storage and registers:
-
-- `Project` -> `/external/prj`
-- `Codex` -> `/external/codex`
 
 It also sets:
 
-- `filesystem_check_changes=1`
+```text
+filesystem_check_changes=1
+```
 
 This lets Nextcloud re-check mounted files when folders are accessed, so files
 added from the host can appear without a full recursive scan.
 
 If a top-level external folder shows `0 KB`, that does not necessarily mean it
-is empty. Nextcloud may not have calculated the full recursive size for a large
-external mount. Open the folder to confirm the contents.
+is empty. Nextcloud may not have calculated recursive size for a large external
+mount. Open the folder to confirm contents.
 
-For a quick manual refresh without scanning the entire project tree:
+Manual shallow refresh:
 
 ```bash
 docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/Project' --shallow
 docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/Codex' --shallow
 ```
 
-## Structured Data Previews
+If you changed `NEXTCLOUD_ADMIN_USER`, replace `admin` with that username.
 
-The local `structuredviewer` app registers a Nextcloud Viewer handler for
-JSON/XML files. It renders JSON as a collapsible object tree and XML as
-formatted code.
+## Structured Viewer App
 
-The installed `htmlviewer` app can also render generated HTML companion
-previews. Companion previews are optional now, but they are still useful as a
-portable fallback outside this Nextcloud instance.
+The bundled `structuredviewer` app registers a Nextcloud Viewer handler for
+JSON/XML files.
 
-Generate companion previews:
+- JSON renders as a collapsible object/array tree.
+- XML renders as a structured element tree.
+- The file-list click path is wired so `.json` and `.xml` open through
+  `structuredviewer` even when the built-in `text` app is enabled.
+
+Useful checks:
+
+```bash
+docker exec -u www-data agent-nextcloud php occ app:list | rg 'structuredviewer|htmlviewer|text|viewer|pdf'
+docker exec -u www-data agent-nextcloud php occ app:enable structuredviewer
+docker exec -u www-data agent-nextcloud php occ upgrade
+```
+
+## Companion HTML Previews
+
+For portable fallback previews, generate `.json.html` and `.xml.html` companion
+files:
 
 ```bash
 node scripts/render-structured-previews.mjs
-docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/Project/nextcloud-file-viewer/sample-gallery' --shallow
 ```
 
-This creates:
+Then shallow-scan the relevant folder:
 
-- `render-check.json.html`
-- `render-check.xml.html`
+```bash
+docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/Project/<folder>' --shallow
+```
 
-Open those `.html` files in Nextcloud to get a mobile-friendly view.
-
-The file-list click path is wired so `.json` and `.xml` open through
-`structuredviewer` even when the built-in `text` app is enabled.
-
-## Evidence Screenshots
-
-Browser and mobile verification screenshots are stored under:
+## Mobile Link Pattern
 
 ```text
-<project>/evidence
+http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-projects-dir>
 ```
 
-Open from Nextcloud:
+## Runtime Files
 
-```text
-http://<host-ip>:8793/apps/files/files?dir=/Project/<project>/evidence
-```
+Do not commit Nextcloud runtime data, generated evidence dumps, or bulky sample
+outputs. Keep durable proof screenshots in the parent repository's `docs/images`
+when they are useful for documentation.
 
-This is a LAN-only test setup. Do not expose port `8793` to the internet.
+## Security
+
+This setup is for LAN-only development preview. Do not expose port `8793` to the
+public internet with the default credentials.
