@@ -169,6 +169,20 @@ than falling back to a generic white Markdown page. After changing Markdown
 preview CSS, verify the actual `.md` file preview with a mobile viewport
 screenshot, not only a generated companion `.html`.
 
+The bundled structured viewer appearance is configurable through Nextcloud app
+config. Use these keys:
+
+```bash
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+```
+
+For temporary checks, URL query parameters can override the app config:
+`sv_theme`, `sv_bg`, `sv_accent`, and `sv_highlight`. Example:
+`?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff`.
+
 Do not render a redundant internal Markdown preview title or file name above the
 document body. Nextcloud already shows the opened file name in the viewer top
 bar, so extra labels such as "Markdown Preview" make the mobile surface feel

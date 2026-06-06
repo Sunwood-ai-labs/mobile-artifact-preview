@@ -138,6 +138,22 @@ docker compose up -d
 `NEXTCLOUD_ADMIN_USER` を変えた場合は、`setup-external-storage.sh` 実行時にも
 同じ値を渡してください。
 
+Markdown プレビューの外観を変える場合:
+
+```bash
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+```
+
+`background_image` は空文字または `none` で解除できます。一時的に確認したい場合は
+URL パラメータでも上書きできます。
+
+```text
+?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff
+```
+
 ## モバイルリンクの形
 
 `~/Prj` 配下のフォルダは、次の形でスマホから開けます。

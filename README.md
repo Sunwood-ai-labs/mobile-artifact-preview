@@ -140,6 +140,22 @@ docker compose up -d
 If you change `NEXTCLOUD_ADMIN_USER`, pass the same value when running
 `setup-external-storage.sh`.
 
+Configure the structured Markdown preview appearance:
+
+```bash
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+```
+
+Use an empty value or `none` for `background_image` to remove the custom
+background. For a one-off preview, add URL parameters such as:
+
+```text
+?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff
+```
+
 ## Mobile Link Pattern
 
 For a project folder under `~/Prj`, use:
