@@ -231,6 +231,8 @@ personal appearance settings must be preserved.
 Use `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` to set a portrait mobile
 background for Files and Viewer pages; the regular background remains the
 desktop/wide-screen image.
+Files and Viewer pages should keep a translucent glass-style UI so the wallpaper
+is visible while file names remain readable.
 
 The default custom palette is eclipse-derived and contrast-adjusted for mobile:
 background `#070810`, primary `#0ea5d8`, accent `#32c7f4`, highlight `#d98545`.
