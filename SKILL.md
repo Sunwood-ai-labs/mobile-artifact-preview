@@ -34,6 +34,14 @@ Do not stop at "file created" or a raw local path. Return:
 
 For images shown in chat, also call `view_image` on the exact file before saying it was displayed.
 
+When a generated image, repository header, thumbnail, or release banner needs
+visible text and the user asked for image generation, do not add that text later
+with Pillow, SVG, canvas, or another post-processing overlay unless the user
+explicitly approves that production method. Treat generated typography as part
+of the deliverable: inspect the image-gen output, retry if the text is wrong,
+and record whether the final asset is direct image-gen output or a post-processed
+composite.
+
 ## Preferred Surfaces
 
 Choose the narrowest surface that fits the artifact:
