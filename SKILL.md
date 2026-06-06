@@ -151,6 +151,17 @@ For article or report drafts that the user only needs to inspect from mobile,
 prefer a read-only rendered `.html` companion or a screenshot/evidence link over
 opening the source `.md` in Nextcloud Text.
 
+When generating a Markdown companion HTML preview, use the bundled script:
+
+```bash
+node assets/nextcloud-file-viewer/scripts/render-markdown-preview.mjs <file.md> --output <preview.html>
+```
+
+This preview intentionally preserves raw HTML inside trusted Markdown, so tags
+such as `<br>`, `<mark>`, `<details>`, and simple HTML tables render in the
+mobile preview instead of being escaped or ignored. Do not use this renderer for
+untrusted Markdown.
+
 ## Common Failures
 
 - Saying an image was shown without calling `view_image` in the same turn.
@@ -159,6 +170,7 @@ opening the source `.md` in Nextcloud Text.
 - Verifying a mobile issue only on desktop viewport.
 - Treating JSON/XML raw text display as structured preview.
 - Treating a Nextcloud Text conflict on read-only `.md` files as Markdown file corruption.
+- Escaping raw HTML when creating trusted Markdown companion previews.
 - Saving evidence screenshots outside the project folder, making them hard for the user to find later.
 
 ## Response Pattern

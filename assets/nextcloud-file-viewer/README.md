@@ -115,6 +115,17 @@ files:
 node scripts/render-structured-previews.mjs
 ```
 
+For Markdown files that should be read from mobile without opening Nextcloud
+Text, generate a read-only HTML companion:
+
+```bash
+node scripts/render-markdown-preview.mjs /path/to/article.md --output /path/to/article-preview.html
+```
+
+This renderer preserves raw HTML inside trusted Markdown, so snippets such as
+`<br>`, `<mark>`, `<details>`, and simple HTML tables are rendered instead of
+being escaped as plain text. Use it only for local files you trust.
+
 Then shallow-scan the relevant folder:
 
 ```bash
