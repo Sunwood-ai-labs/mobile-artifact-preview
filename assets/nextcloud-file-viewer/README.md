@@ -114,7 +114,7 @@ The bundled structured viewer controls the opened-file preview surface. Use the
 helper script when both layers should share the same branded dark palette:
 
 ```bash
-MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 

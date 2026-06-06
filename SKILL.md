@@ -190,7 +190,7 @@ preview internals. Prefer the bundled reproducible helper:
 
 ```bash
 cd assets/nextcloud-file-viewer
-MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
