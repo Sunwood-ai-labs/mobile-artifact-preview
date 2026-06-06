@@ -201,6 +201,12 @@ GitHub-like document structure. Match the repository header image palette rather
 than falling back to a generic white Markdown page. After changing Markdown
 preview CSS, verify the actual `.md` file preview with a mobile viewport
 screenshot, not only a generated companion `.html`.
+When changing Markdown inline rendering, verify README-style linked image
+badges such as `[![Validate](...badge.svg)](...)`. Markdown image/link syntax
+must be parsed before bare URL auto-linking, otherwise generated anchor
+attributes can leak into the visible preview. External SVG badges that cannot
+load inside the Nextcloud viewer should fall back to local badge styling instead
+of showing broken image icons.
 
 The bundled structured viewer appearance is configurable through Nextcloud app
 config. Use these keys:
