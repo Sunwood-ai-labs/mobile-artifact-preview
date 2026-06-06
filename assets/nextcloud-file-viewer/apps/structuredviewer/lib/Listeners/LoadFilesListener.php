@@ -16,7 +16,7 @@ class LoadFilesListener implements IEventListener {
             return;
         }
 
-        Util::addScript(Application::APP_ID, 'structuredviewer-v4', 'viewer');
-        Util::addStyle(Application::APP_ID, 'structuredviewer-v4');
+        Util::addScript(Application::APP_ID, 'structuredviewer-v5', 'viewer');
+        Util::addStyle(Application::APP_ID, 'structuredviewer-v5');
     }
 }

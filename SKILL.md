@@ -165,6 +165,13 @@ light code blocks, blue links, and readable mobile spacing. After changing
 Markdown preview CSS, verify the actual `.md` file preview with a mobile
 viewport screenshot, not only a generated companion `.html`.
 
+README-style Markdown commonly uses raw HTML for centered logos, badge rows, and
+image sizing. The `.md` source-file preview must support local relative images,
+centered HTML blocks such as `<div align="center">`, badge SVG/PNG rows, and
+regular Markdown images. Verify these patterns with an actual `.md` file opened
+through Nextcloud, because generated companion HTML can hide broken source-file
+relative paths.
+
 When generating a Markdown companion HTML preview, use the bundled script:
 
 ```bash
@@ -183,6 +190,7 @@ The companion preview uses the same trusted-Markdown raw HTML behavior.
 - Treating a Nextcloud Text conflict on read-only `.md` files as Markdown file corruption.
 - Escaping raw HTML when creating trusted Markdown companion previews.
 - Styling the `.md` source-file preview as a custom panel instead of a GitHub-like rendered Markdown document.
+- Forgetting to test README-style centered logos, badges, and relative images in the `.md` source-file preview.
 - Saving evidence screenshots outside the project folder, making them hard for the user to find later.
 
 ## Response Pattern
