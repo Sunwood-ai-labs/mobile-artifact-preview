@@ -145,8 +145,8 @@ Configure the structured Markdown preview appearance:
 ```bash
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#32c7f4'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#d98545'
 ```
 
 Use an empty value or `none` for `background_image` to remove the custom
@@ -170,6 +170,16 @@ primary color, background color, and uploaded background image. It also aligns
 the structured viewer accent/highlight colors. By default it clears the default
 `admin` user's personal background so the global background is visible; set
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` to preserve personal appearance settings.
+
+The default custom palette is extracted from the eclipse wallpaper and adjusted
+for readable UI contrast:
+
+```text
+background: #070810
+primary:    #0ea5d8
+accent:     #32c7f4
+highlight:  #d98545
+```
 
 ## Mobile Link Pattern
 

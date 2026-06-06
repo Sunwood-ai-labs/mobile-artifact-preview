@@ -123,13 +123,17 @@ Override individual values with environment variables:
 ```bash
 MOBILE_ARTIFACT_THEME_NAME="Mobile Artifact Preview" \
 MOBILE_ARTIFACT_THEME_SLOGAN="Mobile proof surface for agent artifacts" \
-MOBILE_ARTIFACT_THEME_COLOR="#07111d" \
-MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#41d3ff" \
-MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#02070d" \
-MOBILE_ARTIFACT_VIEWER_ACCENT="#41d3ff" \
-MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#ffbe6a" \
+MOBILE_ARTIFACT_THEME_COLOR="#0ea5d8" \
+MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#0ea5d8" \
+MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#070810" \
+MOBILE_ARTIFACT_VIEWER_ACCENT="#32c7f4" \
+MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#d98545" \
 scripts/apply-global-theme.sh
 ```
+
+The defaults are extracted from the eclipse wallpaper and adjusted for readable
+mobile UI contrast: near-black eclipse background, cyan orbit primary/accent,
+and warm amber corona highlights.
 
 By default the script also clears the configured user's personal background so
 the global background is visible for the default `admin` account. Override the

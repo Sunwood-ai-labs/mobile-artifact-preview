@@ -143,8 +143,8 @@ Markdown プレビューの外観を変える場合:
 ```bash
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#32c7f4'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#d98545'
 ```
 
 `background_image` は空文字または `none` で解除できます。一時的に確認したい場合は
@@ -169,11 +169,11 @@ scripts/apply-global-theme.sh
 ```bash
 MOBILE_ARTIFACT_THEME_NAME="Mobile Artifact Preview"
 MOBILE_ARTIFACT_THEME_SLOGAN="Mobile proof surface for agent artifacts"
-MOBILE_ARTIFACT_THEME_COLOR="#07111d"
-MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#41d3ff"
-MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#02070d"
-MOBILE_ARTIFACT_VIEWER_ACCENT="#41d3ff"
-MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#ffbe6a"
+MOBILE_ARTIFACT_THEME_COLOR="#0ea5d8"
+MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#0ea5d8"
+MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#070810"
+MOBILE_ARTIFACT_VIEWER_ACCENT="#32c7f4"
+MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#d98545"
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="/path/to/background.png"
 MOBILE_ARTIFACT_THEME_USER="admin"
 MOBILE_ARTIFACT_SYNC_USER_THEME="1"
@@ -184,6 +184,15 @@ MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 デフォルトでは、`admin` ユーザーに残っている個人背景を解除して、全体テーマの
 背景画像が見える状態にします。個人設定を触りたくない場合は
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` を指定してください。
+
+デフォルトのカスタムテーマは、エクリプス壁紙から抽出した色をUI向けに調整しています。
+
+```text
+background: #070810
+primary:    #0ea5d8
+accent:     #32c7f4
+highlight:  #d98545
+```
 
 ## モバイルリンクの形
 

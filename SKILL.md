@@ -201,8 +201,8 @@ config. Use these keys:
 ```bash
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer theme --value=branded_dark
 docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer background_image --value='https://example.local/background.png'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#41d3ff'
-docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#ffbe6a'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer accent --value='#32c7f4'
+docker exec -u www-data agent-nextcloud php occ config:app:set structuredviewer highlight --value='#d98545'
 ```
 
 For temporary checks, URL query parameters can override the app config:
@@ -227,6 +227,9 @@ and `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` when the user wants a custom
 palette or background. It also clears the default user's personal background so
 the global background is visible; set `MOBILE_ARTIFACT_SYNC_USER_THEME=0` when
 personal appearance settings must be preserved.
+
+The default custom palette is eclipse-derived and contrast-adjusted for mobile:
+background `#070810`, primary `#0ea5d8`, accent `#32c7f4`, highlight `#d98545`.
 
 Do not render a redundant internal Markdown preview title or file name above the
 document body. Nextcloud already shows the opened file name in the viewer top
