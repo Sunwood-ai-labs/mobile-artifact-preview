@@ -162,6 +162,7 @@ the global theming helper:
 ```bash
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
@@ -170,6 +171,9 @@ primary color, background color, and uploaded background image. It also aligns
 the structured viewer accent/highlight colors. By default it clears the default
 `admin` user's personal background so the global background is visible; set
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` to preserve personal appearance settings.
+For Files and Viewer pages, `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` is used on
+desktop/wide screens and `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` is used
+on portrait or narrow mobile screens.
 
 The default custom palette is extracted from the eclipse wallpaper and adjusted
 for readable UI contrast:

@@ -23,8 +23,8 @@ class LoadViewerListener implements IEventListener {
         }
 
         $this->addSettings();
-        Util::addScript(Application::APP_ID, 'structuredviewer-v14', 'viewer');
-        Util::addStyle(Application::APP_ID, 'structuredviewer-v14');
+        Util::addScript(Application::APP_ID, 'structuredviewer-v15', 'viewer');
+        Util::addStyle(Application::APP_ID, 'structuredviewer-v15');
     }
 
     private function addSettings(): void {
@@ -34,8 +34,9 @@ class LoadViewerListener implements IEventListener {
         ], json_encode([
             'theme' => $this->config->getAppValue(Application::APP_ID, 'theme', 'branded_dark'),
             'backgroundImage' => $this->config->getAppValue(Application::APP_ID, 'background_image', ''),
-            'accent' => $this->config->getAppValue(Application::APP_ID, 'accent', '#41d3ff'),
-            'highlight' => $this->config->getAppValue(Application::APP_ID, 'highlight', '#ffbe6a'),
+            'mobileBackgroundImage' => $this->config->getAppValue(Application::APP_ID, 'mobile_background_image', ''),
+            'accent' => $this->config->getAppValue(Application::APP_ID, 'accent', '#32c7f4'),
+            'highlight' => $this->config->getAppValue(Application::APP_ID, 'highlight', '#d98545'),
         ], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
     }
 }

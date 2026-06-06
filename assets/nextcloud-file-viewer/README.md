@@ -115,6 +115,7 @@ helper script when both layers should share the same branded dark palette:
 
 ```bash
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
@@ -128,12 +129,19 @@ MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#0ea5d8" \
 MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#070810" \
 MOBILE_ARTIFACT_VIEWER_ACCENT="#32c7f4" \
 MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#d98545" \
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
 The defaults are extracted from the eclipse wallpaper and adjusted for readable
 mobile UI contrast: near-black eclipse background, cyan orbit primary/accent,
 and warm amber corona highlights.
+
+On Files and Viewer pages, the desktop background is used on wide screens and
+the mobile background is used on narrow or portrait screens through a CSS media
+query. The Nextcloud login page still uses the single global background managed
+by the built-in theming app.
 
 By default the script also clears the configured user's personal background so
 the global background is visible for the default `admin` account. Override the

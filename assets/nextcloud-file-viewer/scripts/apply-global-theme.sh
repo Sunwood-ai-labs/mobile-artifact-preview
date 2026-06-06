@@ -10,6 +10,7 @@ background_color="${MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR:-#070810}"
 viewer_accent="${MOBILE_ARTIFACT_VIEWER_ACCENT:-#32c7f4}"
 viewer_highlight="${MOBILE_ARTIFACT_VIEWER_HIGHLIGHT:-#d98545}"
 background_image="${MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE:-}"
+mobile_background_image="${MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE:-}"
 theme_user="${MOBILE_ARTIFACT_THEME_USER:-${NEXTCLOUD_ADMIN_USER:-admin}}"
 sync_user_theme="${MOBILE_ARTIFACT_SYNC_USER_THEME:-1}"
 
@@ -39,37 +40,57 @@ if [[ "$sync_user_theme" != "0" ]]; then
   occ user:setting "$theme_user" theming primary_color --delete --ignore-missing-user || true
 fi
 
-if [[ -n "$background_image" ]]; then
-  background_image="$(realpath "$background_image")"
-  if [[ ! -f "$background_image" ]]; then
-    echo "Background image does not exist on host: $background_image" >&2
+to_container_path() {
+  local host_path="$1"
+  local real_host_path
+  real_host_path="$(realpath "$host_path")"
+
+  if [[ ! -f "$real_host_path" ]]; then
+    echo "Background image does not exist on host: $real_host_path" >&2
     exit 1
   fi
 
-  container_image="$background_image"
   projects_dir="$(realpath "${MOBILE_ARTIFACT_PROJECTS_DIR:-$HOME/Prj}")"
   codex_dir="$(realpath "${MOBILE_ARTIFACT_CODEX_DIR:-$HOME/.codex}")"
+  local container_path="$real_host_path"
 
-  case "$background_image" in
+  case "$real_host_path" in
     "$projects_dir"/*)
-      container_image="/external/prj/${background_image#"$projects_dir"/}"
+      container_path="/external/prj/${real_host_path#"$projects_dir"/}"
       ;;
     "$codex_dir"/*)
-      container_image="/external/codex/${background_image#"$codex_dir"/}"
+      container_path="/external/codex/${real_host_path#"$codex_dir"/}"
       ;;
   esac
 
-  if ! docker exec "$container" test -f "$container_image"; then
-    echo "Background image is not visible in the container: $container_image" >&2
+  if ! docker exec "$container" test -f "$container_path"; then
+    echo "Background image is not visible in the container: $container_path" >&2
     exit 1
   fi
 
+  printf '%s\n' "$container_path"
+}
+
+set_project_background_config() {
+  local config_key="$1"
+  local container_path="$2"
+  if [[ "$container_path" == /external/prj/* ]]; then
+    occ config:app:set structuredviewer "$config_key" --value="/remote.php/dav/files/admin/Project/${container_path#/external/prj/}"
+  fi
+}
+
+if [[ -n "$background_image" ]]; then
+  container_image="$(to_container_path "$background_image")"
   php_code='require_once "/var/www/html/lib/base.php"; $path=$argv[1]; $key="background"; $manager=\OC::$server->get(\OCA\Theming\ImageManager::class); $mime=$manager->updateImage($key, $path); \OC::$server->get(\OCP\IConfig::class)->setAppValue("theming", $key . "Mime", $mime); echo $mime . "\n";'
   mime="$(docker exec -u www-data "$container" php -r "$php_code" "$container_image")"
-  if [[ "$container_image" == /external/prj/* ]]; then
-    occ config:app:set structuredviewer background_image --value="/remote.php/dav/files/admin/Project/${container_image#/external/prj/}"
-  fi
+  set_project_background_config background_image "$container_image"
   echo "Applied global background: $container_image ($mime)"
+fi
+
+if [[ -n "$mobile_background_image" ]]; then
+  mobile_container_image="$(to_container_path "$mobile_background_image")"
+  set_project_background_config mobile_background_image "$mobile_container_image"
+  echo "Applied mobile background: $mobile_container_image"
 fi
 
 echo "Applied Nextcloud global theme and structured viewer theme."

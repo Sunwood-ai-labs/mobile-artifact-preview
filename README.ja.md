@@ -161,6 +161,7 @@ Nextcloud 全体の外観も合わせる場合は、`theming` アプリの設定
 ```bash
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
@@ -175,6 +176,7 @@ MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#070810"
 MOBILE_ARTIFACT_VIEWER_ACCENT="#32c7f4"
 MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#d98545"
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="/path/to/background.png"
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="/path/to/mobile-background.png"
 MOBILE_ARTIFACT_THEME_USER="admin"
 MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 ```
@@ -184,6 +186,8 @@ MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 デフォルトでは、`admin` ユーザーに残っている個人背景を解除して、全体テーマの
 背景画像が見える状態にします。個人設定を触りたくない場合は
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` を指定してください。
+Files/Viewer 画面では、PCや横長画面に `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE`、
+スマホや縦長画面に `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` を使います。
 
 デフォルトのカスタムテーマは、エクリプス壁紙から抽出した色をUI向けに調整しています。
 

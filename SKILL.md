@@ -217,6 +217,7 @@ preview internals. Prefer the bundled reproducible helper:
 ```bash
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
 scripts/apply-global-theme.sh
 ```
 
@@ -227,6 +228,9 @@ and `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` when the user wants a custom
 palette or background. It also clears the default user's personal background so
 the global background is visible; set `MOBILE_ARTIFACT_SYNC_USER_THEME=0` when
 personal appearance settings must be preserved.
+Use `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` to set a portrait mobile
+background for Files and Viewer pages; the regular background remains the
+desktop/wide-screen image.
 
 The default custom palette is eclipse-derived and contrast-adjusted for mobile:
 background `#070810`, primary `#0ea5d8`, accent `#32c7f4`, highlight `#d98545`.
