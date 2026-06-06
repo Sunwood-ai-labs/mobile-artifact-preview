@@ -107,6 +107,13 @@ For generated MP4/video artifacts, provide one of these verified surfaces:
   `Accept-Ranges: bytes`, and supports `206 Partial Content` for range
   requests.
 
+Do not promise direct iPhone Photos/camera-roll saving from an insecure LAN
+`http://192.168...` page. Browser file sharing with `navigator.share({files})`
+requires a secure context such as HTTPS, and ChatGPT/Safari webviews may fall
+back to file download only. If the user needs Photos import, provide a verified
+HTTPS share page or give an explicit fallback route through the Files app,
+AirDrop, or another native iOS import path.
+
 Before reporting a video link as previewable, verify:
 
 ```bash
