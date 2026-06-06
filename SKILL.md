@@ -183,6 +183,25 @@ For temporary checks, URL query parameters can override the app config:
 `sv_theme`, `sv_bg`, `sv_accent`, and `sv_highlight`. Example:
 `?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff`.
 
+If the user asks about the overall Nextcloud look, theme the global Nextcloud UI
+as well as the opened-file preview. The global UI is controlled by the
+Nextcloud `theming` app, while `structuredviewer` controls Markdown/JSON/XML
+preview internals. Prefer the bundled reproducible helper:
+
+```bash
+cd assets/nextcloud-file-viewer
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+scripts/apply-global-theme.sh
+```
+
+The helper sets Nextcloud name/slogan/colors/background image and then aligns
+the structured viewer accent/highlight colors. Use environment variables such as
+`MOBILE_ARTIFACT_THEME_PRIMARY_COLOR`, `MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR`,
+and `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` when the user wants a custom
+palette or background. It also clears the default user's personal background so
+the global background is visible; set `MOBILE_ARTIFACT_SYNC_USER_THEME=0` when
+personal appearance settings must be preserved.
+
 Do not render a redundant internal Markdown preview title or file name above the
 document body. Nextcloud already shows the opened file name in the viewer top
 bar, so extra labels such as "Markdown Preview" make the mobile surface feel

@@ -156,6 +156,21 @@ background. For a one-off preview, add URL parameters such as:
 ?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff
 ```
 
+To align the overall Nextcloud UI with the same dark branded appearance, apply
+the global theming helper:
+
+```bash
+cd assets/nextcloud-file-viewer
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+scripts/apply-global-theme.sh
+```
+
+The helper configures the Nextcloud `theming` app for the app name, slogan,
+primary color, background color, and uploaded background image. It also aligns
+the structured viewer accent/highlight colors. By default it clears the default
+`admin` user's personal background so the global background is visible; set
+`MOBILE_ARTIFACT_SYNC_USER_THEME=0` to preserve personal appearance settings.
+
 ## Mobile Link Pattern
 
 For a project folder under `~/Prj`, use:

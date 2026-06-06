@@ -106,6 +106,40 @@ docker exec -u www-data agent-nextcloud php occ app:enable structuredviewer
 docker exec -u www-data agent-nextcloud php occ upgrade
 ```
 
+## Global Appearance
+
+Nextcloud's built-in `theming` app controls the overall UI: app name, slogan,
+top-bar colors, primary color, background color, and uploaded background image.
+The bundled structured viewer controls the opened-file preview surface. Use the
+helper script when both layers should share the same branded dark palette:
+
+```bash
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+scripts/apply-global-theme.sh
+```
+
+Override individual values with environment variables:
+
+```bash
+MOBILE_ARTIFACT_THEME_NAME="Mobile Artifact Preview" \
+MOBILE_ARTIFACT_THEME_SLOGAN="Mobile proof surface for agent artifacts" \
+MOBILE_ARTIFACT_THEME_COLOR="#07111d" \
+MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#41d3ff" \
+MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#02070d" \
+MOBILE_ARTIFACT_VIEWER_ACCENT="#41d3ff" \
+MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#ffbe6a" \
+scripts/apply-global-theme.sh
+```
+
+By default the script also clears the configured user's personal background so
+the global background is visible for the default `admin` account. Override the
+user with `MOBILE_ARTIFACT_THEME_USER`, or set `MOBILE_ARTIFACT_SYNC_USER_THEME=0`
+to leave personal appearance settings untouched.
+
+Background images can also be changed in the Nextcloud admin UI under
+Administration settings -> Theming, but the script keeps the setup reproducible
+for mobile preview environments.
+
 ## Companion HTML Previews
 
 For portable fallback previews, generate `.json.html` and `.xml.html` companion

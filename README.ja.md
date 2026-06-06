@@ -154,6 +154,37 @@ URL パラメータでも上書きできます。
 ?sv_bg=https%3A%2F%2Fexample.local%2Fbackground.png&sv_accent=%235ce1ff
 ```
 
+Nextcloud 全体の外観も合わせる場合は、`theming` アプリの設定を使います。
+ビューア内の Markdown/JSON/XML だけでなく、ファイル一覧やヘッダー側の色、
+背景画像まで同じブランドテーマに寄せられます。
+
+```bash
+cd assets/nextcloud-file-viewer
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/repository-header.png" \
+scripts/apply-global-theme.sh
+```
+
+主な上書きパラメータ:
+
+```bash
+MOBILE_ARTIFACT_THEME_NAME="Mobile Artifact Preview"
+MOBILE_ARTIFACT_THEME_SLOGAN="Mobile proof surface for agent artifacts"
+MOBILE_ARTIFACT_THEME_COLOR="#07111d"
+MOBILE_ARTIFACT_THEME_PRIMARY_COLOR="#41d3ff"
+MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR="#02070d"
+MOBILE_ARTIFACT_VIEWER_ACCENT="#41d3ff"
+MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#ffbe6a"
+MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="/path/to/background.png"
+MOBILE_ARTIFACT_THEME_USER="admin"
+MOBILE_ARTIFACT_SYNC_USER_THEME="1"
+```
+
+背景画像は Nextcloud の「管理設定 -> 外観」から手動で変えることもできますが、
+このスクリプトを使うと起動中の検証環境に同じ設定を何度でも再適用できます。
+デフォルトでは、`admin` ユーザーに残っている個人背景を解除して、全体テーマの
+背景画像が見える状態にします。個人設定を触りたくない場合は
+`MOBILE_ARTIFACT_SYNC_USER_THEME=0` を指定してください。
+
 ## モバイルリンクの形
 
 `~/Prj` 配下のフォルダは、次の形でスマホから開けます。
