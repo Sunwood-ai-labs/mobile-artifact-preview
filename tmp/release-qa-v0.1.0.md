@@ -38,7 +38,7 @@
 | Responsive desktop/mobile wallpapers are included | `7ecf5d4`, `965c42d`, `docs/images/eclipse-*.png` | pass |
 | Translucent file surfaces and mobile wobble fixes are included | `16ccf24`, `174186f`, `20bd9a1` | pass |
 | Evidence screenshots and logo variants exist | `docs/images/` | pass |
-| v0.1.0 release header image exists | `docs/images/release-header-v0.1.0.png` | pass |
+| v0.1.0 release header image exists and uses image-gen artwork as its visual base | `docs/images/release-header-v0.1.0.png`, `docs/images/release-header-v0.1.0-imagegen-base.png` | pass |
 | Validation command passes | current run of `./scripts/validate-package.sh` | pass |
 
 ## Commit Coverage Audit
@@ -69,3 +69,5 @@ git diff --check
 
 - Existing uncommitted logo-transparency experiment files were intentionally excluded from the v0.1.0 release notes commit.
 - GitHub Release publication was not requested explicitly; this QA file treats `docs/releases/v0.1.0.md` as the release-note source body.
+
+- The final release header uses an image-gen generated visual base. Exact release text and feature chips were overlaid with Pillow to avoid generated typography errors.
