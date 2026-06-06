@@ -168,6 +168,11 @@ light code blocks, blue links, and readable mobile spacing. After changing
 Markdown preview CSS, verify the actual `.md` file preview with a mobile
 viewport screenshot, not only a generated companion `.html`.
 
+Do not render a redundant internal Markdown preview title or file name above the
+document body. Nextcloud already shows the opened file name in the viewer top
+bar, so extra labels such as "Markdown Preview" make the mobile surface feel
+duplicated and cramped.
+
 README-style Markdown commonly uses raw HTML for centered logos, badge rows, and
 image sizing. The `.md` source-file preview must support local relative images,
 centered HTML blocks such as `<div align="center">`, badge SVG/PNG rows, and

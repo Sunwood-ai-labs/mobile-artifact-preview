@@ -4,7 +4,7 @@
   <name>Structured Viewer</name>
   <summary>View JSON, XML, and Markdown files with a mobile-friendly layout.</summary>
   <description>Local LAN-only viewer for agent-generated JSON, XML, and trusted Markdown files with a GitHub-like Markdown preview, README-style centered HTML, badges, and relative images.</description>
-  <version>0.10.0</version>
+  <version>0.11.0</version>
   <licence>mit</licence>
   <author>Codex</author>
   <namespace>StructuredViewer</namespace>
