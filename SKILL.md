@@ -207,6 +207,11 @@ must be parsed before bare URL auto-linking, otherwise generated anchor
 attributes can leak into the visible preview. External SVG badges that cannot
 load inside the Nextcloud viewer should fall back to local badge styling instead
 of showing broken image icons.
+Also verify the Files app folder-top README/workspace preview, not only the
+opened `.md` viewer. The folder-top preview is a separate Nextcloud Text
+surface, so it needs a mobile screenshot proving raw HTML is not visible,
+linked badges render, the preview width is not narrowed by workspace padding,
+and the file list does not overlap the preview content.
 
 The bundled structured viewer appearance is configurable through Nextcloud app
 config. Use these keys:
