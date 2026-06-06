@@ -142,8 +142,9 @@ On Files and Viewer pages, the desktop background is used on wide screens and
 the mobile background is used on narrow or portrait screens through a CSS media
 query. The Nextcloud login page still uses the single global background managed
 by the built-in theming app.
-Files and Viewer panels use a translucent glass-style surface so the wallpaper
-is visible behind the UI while preserving readable rows and controls.
+Files, Viewer, and Dashboard recommendation panels use a translucent glass-style
+surface so the wallpaper is visible behind the UI while preserving readable rows
+and controls.
 
 By default the script also clears the configured user's personal background so
 the global background is visible for the default `admin` account. Override the

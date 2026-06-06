@@ -174,8 +174,8 @@ the structured viewer accent/highlight colors. By default it clears the default
 For Files and Viewer pages, `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` is used on
 desktop/wide screens and `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` is used
 on portrait or narrow mobile screens.
-Those pages also use a translucent glass-style Files UI so the wallpaper remains
-visible without sacrificing file-list readability.
+Files, Viewer, and Dashboard recommendation panels use a translucent glass-style
+UI so the wallpaper remains visible without sacrificing readability.
 
 The default custom palette is extracted from the eclipse wallpaper and adjusted
 for readable UI contrast:

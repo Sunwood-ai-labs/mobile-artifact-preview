@@ -188,8 +188,8 @@ MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` を指定してください。
 Files/Viewer 画面では、PCや横長画面に `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE`、
 スマホや縦長画面に `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` を使います。
-また、Files/Viewer 画面のナビゲーションとファイル一覧は半透明のガラス調にして、
-背景を見せつつ可読性を保ちます。
+また、Files/Viewer 画面のナビゲーション、ファイル一覧、Dashboard のおすすめ
+ファイルカードは半透明のガラス調にして、背景を見せつつ可読性を保ちます。
 
 デフォルトのカスタムテーマは、エクリプス壁紙から抽出した色をUI向けに調整しています。
 

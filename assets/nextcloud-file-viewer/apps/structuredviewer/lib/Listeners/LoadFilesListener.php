@@ -23,8 +23,8 @@ class LoadFilesListener implements IEventListener {
         }
 
         $this->addSettings();
-        Util::addScript(Application::APP_ID, 'structuredviewer-v16', 'viewer');
-        Util::addStyle(Application::APP_ID, 'structuredviewer-v16');
+        Util::addScript(Application::APP_ID, 'structuredviewer-v17', 'viewer');
+        Util::addStyle(Application::APP_ID, 'structuredviewer-v17');
     }
 
     private function addSettings(): void {
