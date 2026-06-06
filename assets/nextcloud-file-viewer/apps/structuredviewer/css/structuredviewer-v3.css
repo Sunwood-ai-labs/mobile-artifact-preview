@@ -1,0 +1,206 @@
+.structured-viewer {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 132px 18px 56px;
+  color: #f7f9fc;
+  background: #101624;
+  min-height: 100%;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.structured-viewer header {
+  margin-bottom: 18px;
+  border-bottom: 1px solid #2a3448;
+  padding-bottom: 16px;
+}
+
+.structured-viewer h1 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 5vw, 38px);
+  line-height: 1.05;
+}
+
+.structured-viewer header p {
+  margin: 0;
+  color: #9aa7bd;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.structured-viewer .sv-panel {
+  border: 1px solid #2a3448;
+  background: #171f2e;
+  border-radius: 8px;
+  padding: 18px;
+  overflow: auto;
+}
+
+.structured-viewer details {
+  margin: 4px 0;
+}
+
+.structured-viewer summary {
+  cursor: pointer;
+  color: #9aa7bd;
+  min-height: 28px;
+}
+
+.structured-viewer ul,
+.structured-viewer ol {
+  margin: 6px 0 6px 18px;
+  padding-left: 16px;
+  border-left: 1px solid #2a3448;
+}
+
+.structured-viewer li {
+  margin: 6px 0;
+}
+
+.structured-viewer .sv-key {
+  color: #80c7ff;
+  font-weight: 700;
+}
+
+.structured-viewer .sv-colon,
+.structured-viewer .sv-count,
+.structured-viewer .sv-type {
+  color: #9aa7bd;
+}
+
+.structured-viewer .sv-value.sv-string {
+  color: #95e6a3;
+}
+
+.structured-viewer .sv-value.sv-number {
+  color: #ffd37a;
+}
+
+.structured-viewer .sv-value.sv-boolean {
+  color: #ff9bb7;
+}
+
+.structured-viewer .sv-value.sv-null {
+  color: #b9a7ff;
+}
+
+.structured-viewer pre {
+  margin: 0;
+  white-space: pre;
+  min-width: max-content;
+  font: 13px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.structured-viewer code {
+  color: #d7e4f7;
+}
+
+.structured-viewer .sv-state {
+  border: 1px solid #2a3448;
+  background: #171f2e;
+  border-radius: 8px;
+  padding: 18px;
+  color: #9aa7bd;
+}
+
+.structured-viewer .sv-error {
+  color: #ff9bb7;
+}
+
+.structured-viewer .sv-markdown {
+  max-width: 780px;
+  margin: 0 auto;
+  overflow-wrap: anywhere;
+}
+
+.structured-viewer .sv-markdown h1 {
+  font-size: clamp(30px, 8vw, 48px);
+  line-height: 1.08;
+  margin: 0 0 22px;
+}
+
+.structured-viewer .sv-markdown h2 {
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 42px 0 12px;
+  padding-top: 4px;
+  border-top: 1px solid #2a3448;
+}
+
+.structured-viewer .sv-markdown h3 {
+  font-size: 20px;
+  margin: 28px 0 10px;
+}
+
+.structured-viewer .sv-markdown p,
+.structured-viewer .sv-markdown li {
+  font-size: 17px;
+  line-height: 1.72;
+}
+
+.structured-viewer .sv-markdown a {
+  color: #93c5fd;
+}
+
+.structured-viewer .sv-markdown code {
+  background: #20283a;
+  border: 1px solid #2a3448;
+  border-radius: 5px;
+  color: #d7e4f7;
+  padding: 0.08em 0.35em;
+}
+
+.structured-viewer .sv-markdown pre {
+  overflow: auto;
+  white-space: pre;
+  min-width: 0;
+  background: #101827;
+  border: 1px solid #2a3448;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.structured-viewer .sv-markdown figure {
+  margin: 26px 0;
+  padding: 10px;
+  background: #151c2b;
+  border: 1px solid #2a3448;
+  border-radius: 8px;
+}
+
+.structured-viewer .sv-markdown img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.structured-viewer .sv-markdown figcaption {
+  color: #9aa7bd;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.structured-viewer .sv-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 15px;
+}
+
+.structured-viewer .sv-markdown th,
+.structured-viewer .sv-markdown td {
+  border: 1px solid #2a3448;
+  padding: 8px 10px;
+  vertical-align: top;
+}
+
+.structured-viewer .sv-markdown th {
+  background: #20283a;
+}
+
+.structured-viewer .sv-markdown mark {
+  background: #facc15;
+  color: #111827;
+  border-radius: 3px;
+  padding: 0 0.18em;
+}

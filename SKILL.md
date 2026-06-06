@@ -148,8 +148,16 @@ file content on the host, then discard the stale Text session or reopen the file
 from the latest version.
 
 For article or report drafts that the user only needs to inspect from mobile,
-prefer a read-only rendered `.html` companion or a screenshot/evidence link over
-opening the source `.md` in Nextcloud Text.
+prefer the bundled Markdown viewer for the source `.md` file, or a read-only
+rendered `.html` companion when a portable fallback is needed. Avoid opening
+source `.md` files in Nextcloud Text when the mount is read-only.
+
+The bundled `structuredviewer` app intercepts `.md` and `.markdown` file-list
+clicks and opens them through a read-only Markdown preview. This source-file
+preview intentionally preserves raw HTML inside trusted Markdown, so tags such
+as `<br>`, `<mark>`, `<details>`, and simple HTML tables render in the mobile
+preview instead of being escaped or ignored. Do not use this renderer for
+untrusted Markdown.
 
 When generating a Markdown companion HTML preview, use the bundled script:
 
@@ -157,10 +165,7 @@ When generating a Markdown companion HTML preview, use the bundled script:
 node assets/nextcloud-file-viewer/scripts/render-markdown-preview.mjs <file.md> --output <preview.html>
 ```
 
-This preview intentionally preserves raw HTML inside trusted Markdown, so tags
-such as `<br>`, `<mark>`, `<details>`, and simple HTML tables render in the
-mobile preview instead of being escaped or ignored. Do not use this renderer for
-untrusted Markdown.
+The companion preview uses the same trusted-Markdown raw HTML behavior.
 
 ## Common Failures
 

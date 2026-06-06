@@ -2,9 +2,9 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
   <id>structuredviewer</id>
   <name>Structured Viewer</name>
-  <summary>View JSON and XML files with a mobile-friendly structured layout.</summary>
-  <description>Local LAN-only viewer for agent-generated JSON and XML files.</description>
-  <version>0.2.0</version>
+  <summary>View JSON, XML, and Markdown files with a mobile-friendly layout.</summary>
+  <description>Local LAN-only viewer for agent-generated JSON, XML, and trusted Markdown files.</description>
+  <version>0.3.0</version>
   <licence>mit</licence>
   <author>Codex</author>
   <namespace>StructuredViewer</namespace>
