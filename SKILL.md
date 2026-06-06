@@ -43,6 +43,7 @@ Choose the narrowest surface that fits the artifact:
 | Image visible in chat | `view_image` on the exact file |
 | Mobile-accessible project file | Nextcloud file viewer |
 | Mobile web UI or preview app | LAN URL plus mobile viewport screenshot |
+| MP4/video visible on phone | Verified video viewer or direct HTTP video endpoint with mobile viewport screenshot |
 | Local-only static HTML | Start or reuse a small LAN web server |
 | JSON/XML structure | Structured preview or companion `.html` preview |
 | Repeated screenshots/evidence | Project-local `evidence/` folder |
@@ -92,6 +93,31 @@ http://<host-ip>:8793/apps/files/files?dir=/Project/<relative-folder>
 6. For HTML/SVG/JSON/XML/PDF or UI work, verify with a real browser surface. Use a mobile viewport for mobile-facing claims.
 7. Put persistent proof screenshots in a nearby `evidence/` folder, then include both the evidence folder link and local path.
 8. In the final response, include the clickable link first, then local path, then a short verification note.
+
+## MP4 and Video Preview
+
+Do not treat a raw WebDAV URL such as `remote.php/dav/.../*.mp4` as a verified
+mobile preview link. On iPhone it may open as a generic downloadable MP4 file
+with an external-app prompt instead of an inline playable preview.
+
+For generated MP4/video artifacts, provide one of these verified surfaces:
+
+- a LAN viewer page that renders a `<video controls playsinline>` element; or
+- a direct HTTP endpoint that returns `Content-Type: video/mp4`,
+  `Accept-Ranges: bytes`, and supports `206 Partial Content` for range
+  requests.
+
+Before reporting a video link as previewable, verify:
+
+```bash
+curl -I 'http://<host>/<video-url>'
+curl -I -H 'Range: bytes=0-1023' 'http://<host>/<video-url>'
+```
+
+The first response should be `200 OK` with `Content-Type: video/mp4`; the second
+should be `206 Partial Content` with `Content-Range`. Also open the viewer in a
+390x844 mobile viewport and confirm the video element loads metadata such as
+duration, width, and height.
 
 ## Mobile Verification
 
