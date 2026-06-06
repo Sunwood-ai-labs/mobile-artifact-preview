@@ -22,7 +22,7 @@ class LoadGlobalThemeListener implements IEventListener {
             return;
         }
 
-        Util::addStyle(Application::APP_ID, 'structuredviewer-v17');
+        Util::addStyle(Application::APP_ID, 'structuredviewer-v23');
         Util::addHeader('style', [
             'id' => 'structuredviewer-global-theme-vars',
         ], sprintf(

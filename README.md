@@ -176,6 +176,9 @@ desktop/wide screens and `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` is used
 on portrait or narrow mobile screens.
 Files, Viewer, and Dashboard recommendation panels use a translucent glass-style
 UI so the wallpaper remains visible without sacrificing readability.
+The glass effect is applied as a single section layer: nested rows and
+recommendation items stay transparent so panels do not become unevenly opaque
+on mobile.
 
 The default custom palette is extracted from the eclipse wallpaper and adjusted
 for readable UI contrast:

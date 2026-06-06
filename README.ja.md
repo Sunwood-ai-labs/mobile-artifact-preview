@@ -190,6 +190,8 @@ Files/Viewer 画面では、PCや横長画面に `MOBILE_ARTIFACT_THEME_BACKGROU
 スマホや縦長画面に `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` を使います。
 また、Files/Viewer 画面のナビゲーション、ファイル一覧、Dashboard のおすすめ
 ファイルカードは半透明のガラス調にして、背景を見せつつ可読性を保ちます。
+ガラス効果はセクション単位の1層に限定し、行やおすすめ項目などの子要素は
+透明にして、スマホで場所ごとの不透明度がばらつかないようにしています。
 
 デフォルトのカスタムテーマは、エクリプス壁紙から抽出した色をUI向けに調整しています。
 

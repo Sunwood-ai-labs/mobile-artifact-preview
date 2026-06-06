@@ -240,6 +240,10 @@ background for Files and Viewer pages; the regular background remains the
 desktop/wide-screen image.
 Files, Viewer, and Dashboard recommendation panels should keep a translucent
 glass-style UI so the wallpaper is visible while file names remain readable.
+Do not stack translucent backgrounds on both parent containers and child rows:
+give the section container the glass background, keep nested rows/items
+transparent, and verify computed styles on a mobile viewport before reporting
+the theme fixed.
 
 The default custom palette is eclipse-derived and contrast-adjusted for mobile:
 background `#070810`, primary `#0ea5d8`, accent `#32c7f4`, highlight `#d98545`.
