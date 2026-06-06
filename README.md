@@ -163,17 +163,23 @@ the global theming helper:
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
 MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_LOGO_IMAGE="$PWD/../../docs/images/nextcloud-custom-logo.png" \
+MOBILE_ARTIFACT_THEME_FAVICON_IMAGE="$PWD/../../docs/images/nextcloud-custom-favicon.png" \
 scripts/apply-global-theme.sh
 ```
 
 The helper configures the Nextcloud `theming` app for the app name, slogan,
-primary color, background color, and uploaded background image. It also aligns
-the structured viewer accent/highlight colors. By default it clears the default
-`admin` user's personal background so the global background is visible; set
+primary color, background color, uploaded background image, custom logo,
+header logo, and favicon. It also aligns the structured viewer
+accent/highlight colors. By default it clears the default `admin` user's
+personal background so the global background is visible; set
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` to preserve personal appearance settings.
 For Files and Viewer pages, `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` is used on
 desktop/wide screens and `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` is used
 on portrait or narrow mobile screens.
+If `MOBILE_ARTIFACT_THEME_LOGO_HEADER_IMAGE` is omitted, the regular logo image
+is reused for the Nextcloud header logo; if `MOBILE_ARTIFACT_THEME_FAVICON_IMAGE`
+is omitted, the regular logo image is reused for the favicon.
 Files, Viewer, and Dashboard recommendation panels use a translucent glass-style
 UI so the wallpaper remains visible without sacrificing readability.
 The glass effect is applied as a single section layer: nested rows and

@@ -11,6 +11,9 @@ viewer_accent="${MOBILE_ARTIFACT_VIEWER_ACCENT:-#32c7f4}"
 viewer_highlight="${MOBILE_ARTIFACT_VIEWER_HIGHLIGHT:-#d98545}"
 background_image="${MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE:-}"
 mobile_background_image="${MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE:-}"
+logo_image="${MOBILE_ARTIFACT_THEME_LOGO_IMAGE:-}"
+logo_header_image="${MOBILE_ARTIFACT_THEME_LOGO_HEADER_IMAGE:-${logo_image}}"
+favicon_image="${MOBILE_ARTIFACT_THEME_FAVICON_IMAGE:-${logo_image}}"
 theme_user="${MOBILE_ARTIFACT_THEME_USER:-${NEXTCLOUD_ADMIN_USER:-admin}}"
 sync_user_theme="${MOBILE_ARTIFACT_SYNC_USER_THEME:-1}"
 
@@ -46,7 +49,7 @@ to_container_path() {
   real_host_path="$(realpath "$host_path")"
 
   if [[ ! -f "$real_host_path" ]]; then
-    echo "Background image does not exist on host: $real_host_path" >&2
+    echo "Theme image does not exist on host: $real_host_path" >&2
     exit 1
   fi
 
@@ -64,11 +67,18 @@ to_container_path() {
   esac
 
   if ! docker exec "$container" test -f "$container_path"; then
-    echo "Background image is not visible in the container: $container_path" >&2
+    echo "Theme image is not visible in the container: $container_path" >&2
     exit 1
   fi
 
   printf '%s\n' "$container_path"
+}
+
+update_theming_image() {
+  local key="$1"
+  local container_path="$2"
+  local php_code='require_once "/var/www/html/lib/base.php"; $key=$argv[1]; $path=$argv[2]; $manager=\OC::$server->get(\OCA\Theming\ImageManager::class); $mime=$manager->updateImage($key, $path); \OC::$server->get(\OCP\IConfig::class)->setAppValue("theming", $key . "Mime", $mime); echo $mime . "\n";'
+  docker exec -u www-data "$container" php -r "$php_code" "$key" "$container_path"
 }
 
 set_project_background_config() {
@@ -81,8 +91,7 @@ set_project_background_config() {
 
 if [[ -n "$background_image" ]]; then
   container_image="$(to_container_path "$background_image")"
-  php_code='require_once "/var/www/html/lib/base.php"; $path=$argv[1]; $key="background"; $manager=\OC::$server->get(\OCA\Theming\ImageManager::class); $mime=$manager->updateImage($key, $path); \OC::$server->get(\OCP\IConfig::class)->setAppValue("theming", $key . "Mime", $mime); echo $mime . "\n";'
-  mime="$(docker exec -u www-data "$container" php -r "$php_code" "$container_image")"
+  mime="$(update_theming_image background "$container_image")"
   set_project_background_config background_image "$container_image"
   echo "Applied global background: $container_image ($mime)"
 fi
@@ -91,6 +100,24 @@ if [[ -n "$mobile_background_image" ]]; then
   mobile_container_image="$(to_container_path "$mobile_background_image")"
   set_project_background_config mobile_background_image "$mobile_container_image"
   echo "Applied mobile background: $mobile_container_image"
+fi
+
+if [[ -n "$logo_image" ]]; then
+  logo_container_image="$(to_container_path "$logo_image")"
+  mime="$(update_theming_image logo "$logo_container_image")"
+  echo "Applied Nextcloud logo: $logo_container_image ($mime)"
+fi
+
+if [[ -n "$logo_header_image" ]]; then
+  logo_header_container_image="$(to_container_path "$logo_header_image")"
+  mime="$(update_theming_image logoheader "$logo_header_container_image")"
+  echo "Applied Nextcloud header logo: $logo_header_container_image ($mime)"
+fi
+
+if [[ -n "$favicon_image" ]]; then
+  favicon_container_image="$(to_container_path "$favicon_image")"
+  mime="$(update_theming_image favicon "$favicon_container_image")"
+  echo "Applied Nextcloud favicon: $favicon_container_image ($mime)"
 fi
 
 echo "Applied Nextcloud global theme and structured viewer theme."

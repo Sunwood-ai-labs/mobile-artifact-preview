@@ -162,6 +162,8 @@ Nextcloud 全体の外観も合わせる場合は、`theming` アプリの設定
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
 MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_LOGO_IMAGE="$PWD/../../docs/images/nextcloud-custom-logo.png" \
+MOBILE_ARTIFACT_THEME_FAVICON_IMAGE="$PWD/../../docs/images/nextcloud-custom-favicon.png" \
 scripts/apply-global-theme.sh
 ```
 
@@ -177,6 +179,9 @@ MOBILE_ARTIFACT_VIEWER_ACCENT="#32c7f4"
 MOBILE_ARTIFACT_VIEWER_HIGHLIGHT="#d98545"
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="/path/to/background.png"
 MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="/path/to/mobile-background.png"
+MOBILE_ARTIFACT_THEME_LOGO_IMAGE="/path/to/logo.png"
+MOBILE_ARTIFACT_THEME_LOGO_HEADER_IMAGE="/path/to/header-logo.png"
+MOBILE_ARTIFACT_THEME_FAVICON_IMAGE="/path/to/favicon.png"
 MOBILE_ARTIFACT_THEME_USER="admin"
 MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 ```
@@ -188,6 +193,10 @@ MOBILE_ARTIFACT_SYNC_USER_THEME="1"
 `MOBILE_ARTIFACT_SYNC_USER_THEME=0` を指定してください。
 Files/Viewer 画面では、PCや横長画面に `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE`、
 スマホや縦長画面に `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` を使います。
+`MOBILE_ARTIFACT_THEME_LOGO_IMAGE` を指定すると Nextcloud のロゴを差し替えます。
+ヘッダー専用ロゴは `MOBILE_ARTIFACT_THEME_LOGO_HEADER_IMAGE`、favicon は
+`MOBILE_ARTIFACT_THEME_FAVICON_IMAGE` で個別指定できます。未指定の場合は通常ロゴを
+再利用します。
 また、Files/Viewer 画面のナビゲーション、ファイル一覧、Dashboard のおすすめ
 ファイルカードは半透明のガラス調にして、背景を見せつつ可読性を保ちます。
 ガラス効果はセクション単位の1層に限定し、行やおすすめ項目などの子要素は

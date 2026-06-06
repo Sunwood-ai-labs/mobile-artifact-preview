@@ -236,14 +236,19 @@ preview internals. Prefer the bundled reproducible helper:
 cd assets/nextcloud-file-viewer
 MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-grand-wallpaper.png" \
 MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE="$PWD/../../docs/images/eclipse-mobile-wallpaper.png" \
+MOBILE_ARTIFACT_THEME_LOGO_IMAGE="$PWD/../../docs/images/nextcloud-custom-logo.png" \
+MOBILE_ARTIFACT_THEME_FAVICON_IMAGE="$PWD/../../docs/images/nextcloud-custom-favicon.png" \
 scripts/apply-global-theme.sh
 ```
 
-The helper sets Nextcloud name/slogan/colors/background image and then aligns
-the structured viewer accent/highlight colors. Use environment variables such as
+The helper sets Nextcloud name/slogan/colors/background image, custom logo,
+header logo, favicon, and then aligns the structured viewer accent/highlight
+colors. Use environment variables such as
 `MOBILE_ARTIFACT_THEME_PRIMARY_COLOR`, `MOBILE_ARTIFACT_THEME_BACKGROUND_COLOR`,
-and `MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE` when the user wants a custom
-palette or background. It also clears the default user's personal background so
+`MOBILE_ARTIFACT_THEME_BACKGROUND_IMAGE`, `MOBILE_ARTIFACT_THEME_LOGO_IMAGE`,
+`MOBILE_ARTIFACT_THEME_LOGO_HEADER_IMAGE`, and
+`MOBILE_ARTIFACT_THEME_FAVICON_IMAGE` when the user wants a custom palette,
+background, or logo. It also clears the default user's personal background so
 the global background is visible; set `MOBILE_ARTIFACT_SYNC_USER_THEME=0` when
 personal appearance settings must be preserved.
 Use `MOBILE_ARTIFACT_THEME_MOBILE_BACKGROUND_IMAGE` to set a portrait mobile
