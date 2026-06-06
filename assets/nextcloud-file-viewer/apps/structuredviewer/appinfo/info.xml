@@ -3,8 +3,8 @@
   <id>structuredviewer</id>
   <name>Structured Viewer</name>
   <summary>View JSON, XML, and Markdown files with a mobile-friendly layout.</summary>
-  <description>Local LAN-only viewer for agent-generated JSON, XML, and trusted Markdown files.</description>
-  <version>0.3.0</version>
+  <description>Local LAN-only viewer for agent-generated JSON, XML, and trusted Markdown files with a GitHub-like Markdown preview.</description>
+  <version>0.4.0</version>
   <licence>mit</licence>
   <author>Codex</author>
   <namespace>StructuredViewer</namespace>
