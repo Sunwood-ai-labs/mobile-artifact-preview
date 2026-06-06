@@ -125,6 +125,32 @@ docker exec -u www-data agent-nextcloud php occ upgrade
 
 If the phone appears stale, suspect cached JS/CSS. Versioned asset filenames or updated app versions may be needed before retrying.
 
+## Markdown and Nextcloud Text Conflicts
+
+Project and Codex mounts may be intentionally exposed to Nextcloud as
+read-only Docker mounts. This is safer for generated artifacts, but Nextcloud
+Text still treats `.md` files as editable documents.
+
+If a Markdown file opens with duplicate side-by-side content, overwrite/discard
+buttons, or a warning such as "current changes cannot be autosaved", treat it
+as a Text app conflict session before suspecting file corruption.
+
+Checks:
+
+```bash
+docker inspect agent-nextcloud --format '{{range .Mounts}}{{println .Source "->" .Destination "RW=" .RW}}{{end}}'
+docker exec agent-nextcloud sh -lc "grep -n 'apps/text/session\\|file_put_contents failed\\|Read-only file system' /var/www/html/data/nextcloud.log | tail -n 40"
+```
+
+If the log shows `Read-only file system` for `/external/prj` or
+`/external/codex`, do not click the overwrite option. First confirm the real
+file content on the host, then discard the stale Text session or reopen the file
+from the latest version.
+
+For article or report drafts that the user only needs to inspect from mobile,
+prefer a read-only rendered `.html` companion or a screenshot/evidence link over
+opening the source `.md` in Nextcloud Text.
+
 ## Common Failures
 
 - Saying an image was shown without calling `view_image` in the same turn.
@@ -132,6 +158,7 @@ If the phone appears stale, suspect cached JS/CSS. Versioned asset filenames or 
 - Forgetting to scan a newly created Nextcloud-mounted folder.
 - Verifying a mobile issue only on desktop viewport.
 - Treating JSON/XML raw text display as structured preview.
+- Treating a Nextcloud Text conflict on read-only `.md` files as Markdown file corruption.
 - Saving evidence screenshots outside the project folder, making them hard for the user to find later.
 
 ## Response Pattern
