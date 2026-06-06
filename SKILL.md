@@ -106,6 +106,9 @@ Check for:
 - Header content not hidden behind browser or Nextcloud viewer chrome.
 - No text cut off at the left or right edge.
 - No horizontal scrolling unless the file type naturally requires it.
+- No left-right wobble while vertically scrolling on a phone. Verify that the
+  outer viewer has no horizontal overflow; only intentional inner surfaces such
+  as tables or code blocks may scroll sideways.
 - Buttons and close/menu controls remain reachable.
 - Structured JSON/XML content expands or wraps correctly.
 
