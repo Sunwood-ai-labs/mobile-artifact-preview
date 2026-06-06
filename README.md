@@ -94,23 +94,30 @@ Default local URL:
 http://127.0.0.1:8793/
 ```
 
+Phone-facing HTTPS URL:
+
+```text
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL:-https://<tailscale-host>:8443}
+```
+
 Default login:
 
 ```text
 admin / admin
 ```
 
-For LAN/mobile access, include the host LAN IP in trusted domains:
+For LAN/mobile access, include the host LAN IP or Tailscale hostname in trusted
+domains:
 
 ```bash
-NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x <tailscale-host>" \
 docker compose up -d
 ```
 
-Then open:
+Then open the configured HTTPS route from the phone. On the reference Mac:
 
 ```text
-http://192.168.x.x:8793/
+https://macbook-pro-von-admin.tail8be30.ts.net:8443/
 ```
 
 ## Configuration
@@ -201,13 +208,13 @@ highlight:  #d98545
 For a project folder under `~/Prj`, use:
 
 ```text
-http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-Prj>
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL}/apps/files/files?dir=/Project/<path-under-Prj>
 ```
 
 Example:
 
 ```text
-http://192.168.x.x:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
+https://macbook-pro-von-admin.tail8be30.ts.net:8443/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
 ```
 
 ## Verification

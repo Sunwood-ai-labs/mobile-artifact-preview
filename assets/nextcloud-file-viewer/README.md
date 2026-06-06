@@ -18,6 +18,12 @@ Open:
 http://127.0.0.1:8793/
 ```
 
+Phone-facing HTTPS URL:
+
+```text
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL:-https://<tailscale-host>:8443}
+```
+
 Default login:
 
 ```text
@@ -26,18 +32,18 @@ admin / admin
 
 ## LAN Access
 
-For access from a phone, include the host LAN IP in trusted domains before the
-first boot:
+For access from a phone, include the host LAN IP or Tailscale hostname in
+trusted domains before the first boot:
 
 ```bash
-NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x <tailscale-host>" \
 docker compose up -d
 ```
 
-Then open:
+Then open the configured HTTPS route from the phone. On the reference Mac:
 
 ```text
-http://192.168.x.x:8793/
+https://macbook-pro-von-admin.tail8be30.ts.net:8443/
 ```
 
 ## Mounted Host Folders
@@ -184,7 +190,7 @@ docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/P
 ## Mobile Link Pattern
 
 ```text
-http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-projects-dir>
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL}/apps/files/files?dir=/Project/<path-under-projects-dir>
 ```
 
 ## Runtime Files
@@ -195,5 +201,5 @@ when they are useful for documentation.
 
 ## Security
 
-This setup is for LAN-only development preview. Do not expose port `8793` to the
-public internet with the default credentials.
+This setup is for private LAN or tailnet development preview. Do not expose port
+`8793` or a public HTTPS route to the internet with the default credentials.

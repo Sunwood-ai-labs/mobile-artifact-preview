@@ -92,23 +92,29 @@ docker compose up -d
 http://127.0.0.1:8793/
 ```
 
+スマホ向けHTTPS URL:
+
+```text
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL:-https://<tailscale-host>:8443}
+```
+
 デフォルトログイン:
 
 ```text
 admin / admin
 ```
 
-LAN やスマホから開く場合は、ホストの LAN IP を trusted domains に入れます。
+LAN やスマホから開く場合は、ホストの LAN IP または Tailscale ホスト名を trusted domains に入れます。
 
 ```bash
-NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x" \
+NEXTCLOUD_TRUSTED_DOMAINS="localhost 127.0.0.1 192.168.x.x <tailscale-host>" \
 docker compose up -d
 ```
 
-その後、スマホから以下を開きます。
+その後、スマホから設定済みの HTTPS URL を開きます。このMacの検証済みURL:
 
 ```text
-http://192.168.x.x:8793/
+https://macbook-pro-von-admin.tail8be30.ts.net:8443/
 ```
 
 ## 設定
@@ -216,13 +222,13 @@ highlight:  #d98545
 `~/Prj` 配下のフォルダは、次の形でスマホから開けます。
 
 ```text
-http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-Prj>
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL}/apps/files/files?dir=/Project/<path-under-Prj>
 ```
 
 例:
 
 ```text
-http://192.168.x.x:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
+https://macbook-pro-von-admin.tail8be30.ts.net:8443/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery
 ```
 
 ## 検証

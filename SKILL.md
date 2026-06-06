@@ -54,13 +54,26 @@ When the bundled Nextcloud viewer is available, prefer it for project and Codex
 artifact links:
 
 ```text
-Default URL: http://127.0.0.1:8793/
+Default local URL: http://127.0.0.1:8793/
+Phone-facing URL: ${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL:-https://<tailscale-host>:8443}
 Default login: admin / admin
 Project mount: ${MOBILE_ARTIFACT_PROJECTS_DIR:-${HOME}/Prj} -> /Project
 Codex mount: ${MOBILE_ARTIFACT_CODEX_DIR:-${HOME}/.codex} -> /Codex
 Project folder link pattern:
-http://<host-ip>:8793/apps/files/files?dir=/Project/<path-under-projects-dir>
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL}/apps/files/files?dir=/Project/<path-under-projects-dir>
 ```
+
+For links returned to the user, prefer the configured HTTPS base URL. Do not
+paste old LAN `http://192.168...:8793` links when HTTPS/Tailscale Serve is
+configured. On this Mac, the verified Nextcloud phone-facing base URL is:
+
+```text
+https://macbook-pro-von-admin.tail8be30.ts.net:8443
+```
+
+The bare `https://macbook-pro-von-admin.tail8be30.ts.net` route may point to a
+different preview service, so keep the `:8443` port for Nextcloud links unless
+`tailscale serve status` proves the mapping changed.
 
 Bundled implementation source in this repository:
 
@@ -80,7 +93,7 @@ docker exec -u www-data agent-nextcloud php occ files:scan --path='admin/files/P
 For a folder link under the projects directory, return:
 
 ```text
-http://<host-ip>:8793/apps/files/files?dir=/Project/<relative-folder>
+${MOBILE_ARTIFACT_NEXTCLOUD_BASE_URL}/apps/files/files?dir=/Project/<relative-folder>
 ```
 
 ## Workflow
@@ -303,7 +316,7 @@ Keep the final response short and proof-oriented:
 
 ```text
 モバイル確認用リンク:
-[Nextcloud sample-gallery](http://<host-ip>:8793/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery)
+[Nextcloud sample-gallery](https://macbook-pro-von-admin.tail8be30.ts.net:8443/apps/files/files?dir=/Project/nextcloud-file-viewer/sample-gallery)
 
 ローカルパス:
 <projects-dir>/nextcloud-file-viewer/sample-gallery
