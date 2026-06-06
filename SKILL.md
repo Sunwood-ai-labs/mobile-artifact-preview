@@ -162,11 +162,12 @@ as `<br>`, `<mark>`, `<details>`, and simple HTML tables render in the mobile
 preview instead of being escaped or ignored. Do not use this renderer for
 untrusted Markdown.
 
-The source-file Markdown preview should visually resemble GitHub's rendered
-Markdown: white document surface, GitHub-like heading rules, muted table borders,
-light code blocks, blue links, and readable mobile spacing. After changing
-Markdown preview CSS, verify the actual `.md` file preview with a mobile
-viewport screenshot, not only a generated companion `.html`.
+The source-file Markdown preview should use the project default dark appearance:
+near-black navy surfaces, cyan links and borders, warm amber highlights, and
+GitHub-like document structure. Match the repository header image palette rather
+than falling back to a generic white Markdown page. After changing Markdown
+preview CSS, verify the actual `.md` file preview with a mobile viewport
+screenshot, not only a generated companion `.html`.
 
 Do not render a redundant internal Markdown preview title or file name above the
 document body. Nextcloud already shows the opened file name in the viewer top
