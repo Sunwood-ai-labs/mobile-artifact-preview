@@ -3,9 +3,9 @@
 ## Scope
 
 - Repository: `Sunwood-ai-labs/mobile-artifact-preview`
-- Release type: initial public release notes draft
-- Comparison range: full shipped history through `4a3735b Add professional white logo variant`
-- Tag state at drafting time: no existing local/GitHub tag found for `v0.1.0`
+- Release type: initial public GitHub release
+- Comparison range: full shipped history through the v0.1.0 release-publishing commit
+- Tag state at publishing time: no pre-existing local/GitHub tag was found for `v0.1.0`; this task creates the tag from the release-publishing commit
 
 ## Evidence Reviewed
 
@@ -17,6 +17,7 @@
 | Theme helper | `assets/nextcloud-file-viewer/scripts/apply-global-theme.sh` | pass |
 | Docs | `README.md`, `README.ja.md`, `assets/nextcloud-file-viewer/README.md` | pass |
 | Visual evidence | `docs/images/*.png` | pass |
+| GitHub release body | `tmp/github-release-v0.1.0.md` | pass |
 | Validation | `./scripts/validate-package.sh` | pass |
 
 ## Claims Checked
@@ -39,6 +40,7 @@
 | Translucent file surfaces and mobile wobble fixes are included | `16ccf24`, `174186f`, `20bd9a1` | pass |
 | Evidence screenshots and logo variants exist | `docs/images/` | pass |
 | v0.1.0 release header image exists and uses direct image-gen text output, with no post-generated text overlay | `docs/images/release-header-v0.1.0.png`, `docs/images/release-header-v0.1.0-imagegen-direct.png` | pass |
+| GitHub release body includes the release header through an absolute raw GitHub image URL | `tmp/github-release-v0.1.0.md` | pass |
 | Validation command passes | current run of `./scripts/validate-package.sh` | pass |
 
 ## Commit Coverage Audit
@@ -59,7 +61,8 @@
 ## Commands Run
 
 ```bash
-git tag --list --sort=creatordate
+git tag --list 'v0.1.0'
+git ls-remote --tags origin 'v0.1.0*'
 gh release list --limit 20
 ./scripts/validate-package.sh
 git diff --check
@@ -68,6 +71,5 @@ git diff --check
 ## Notes
 
 - Existing uncommitted logo-transparency experiment files were intentionally excluded from the v0.1.0 release notes commit.
-- GitHub Release publication was not requested explicitly; this QA file treats `docs/releases/v0.1.0.md` as the release-note source body.
-
+- `docs/releases/v0.1.0.md` remains the repository release-note source, while `tmp/github-release-v0.1.0.md` is the GitHub Release body with absolute image and badge URLs.
 - The final release header uses the direct image-gen output with `mobile-artifact-preview`, `v0.1.0`, and `Release Notes` rendered in the generated image. No post-generated text overlay was applied.
