@@ -21,6 +21,7 @@
 | GitHub release body | `tmp/github-release-v0.2.0.md` | pass |
 | Validation command | `./scripts/validate-package.sh` | pass |
 | Whitespace/diff check | `git diff --check` | pass |
+| Published header image URL | `https://raw.githubusercontent.com/Sunwood-ai-labs/mobile-artifact-preview/main/docs/images/release-header-v0.2.0.png` returned `HTTP 200` with `content-type: image/png` | pass |
 
 ## Claims Checked
 
@@ -63,6 +64,8 @@ gh release view v0.1.0 --json tagName,name,publishedAt,url,targetCommitish,body
 git diff --check
 git tag --list 'v0.2.0'
 git ls-remote --tags origin 'v0.2.0*'
+curl -I -L --max-time 20 https://raw.githubusercontent.com/Sunwood-ai-labs/mobile-artifact-preview/main/docs/images/release-header-v0.2.0.png
+git rev-parse HEAD
 ```
 
 ## Final Validation
@@ -72,6 +75,7 @@ Release publication checks to run after the release tag is created:
 ```bash
 gh release view v0.2.0 --json tagName,name,publishedAt,url,targetCommitish,body
 ```
+
 
 ## Notes
 
