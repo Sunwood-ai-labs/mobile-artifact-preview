@@ -491,6 +491,114 @@
     return origin + '/remote.php/dav/files/' + encodeURIComponent(userId) + '/' + encodeDavPath(filePath);
   }
 
+  function getCurrentDir() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('dir') || '/';
+  }
+
+  function getOpenViewerFileName() {
+    const titleNode = document.querySelector('.modal-header__name, .viewer__header h2, [class*="modal-header"] h2');
+    const raw = titleNode ? (titleNode.innerText || titleNode.textContent || '') : '';
+    const fromHeader = String(raw || '').trim();
+    if (fromHeader) {
+      return fromHeader;
+    }
+    const fromTitle = String(document.title || '').split(' - ')[0].trim();
+    return /\.mp4$/i.test(fromTitle) ? fromTitle : '';
+  }
+
+  async function shareVideoFile(fileUrl, fileName, statusNode) {
+    const setStatus = function(message) {
+      if (statusNode) {
+        statusNode.textContent = message;
+      }
+    };
+
+    if (!window.isSecureContext) {
+      setStatus('写真アプリ保存にはHTTPSが必要です。Tailscale HTTPSまたはCloudflare HTTPSでNextcloudを開いてください。');
+      return;
+    }
+
+    if (!navigator.share || !navigator.canShare) {
+      setStatus('このブラウザでは動画ファイル共有が使えません。Safariで開き直してください。');
+      return;
+    }
+
+    try {
+      setStatus('動画を準備しています...');
+      const response = await fetch(fileUrl, { credentials: 'same-origin', cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: 'video/mp4' });
+
+      if (!navigator.canShare({ files: [file] })) {
+        setStatus('このブラウザでは動画ファイル共有が拒否されました。Safariで開き直してください。');
+        return;
+      }
+
+      setStatus('iOS共有シートを開きます。「ビデオを保存」を選んでください。');
+      await navigator.share({ files: [file], title: fileName });
+      setStatus('共有シートを開きました。「ビデオを保存」を選ぶと写真アプリに入ります。');
+    } catch (error) {
+      setStatus('動画ファイル共有に失敗しました: ' + (error && error.message ? error.message : String(error)));
+    }
+  }
+
+  function upsertVideoSavePanel() {
+    const fileName = getOpenViewerFileName();
+    const existing = document.querySelector('.sv-video-save-panel');
+
+    if (!/\.mp4$/i.test(fileName)) {
+      if (existing) {
+        existing.remove();
+      }
+      return false;
+    }
+
+    const mount = document.querySelector('.modal-container__content, .viewer__content, .modal-container');
+    if (!mount) {
+      return false;
+    }
+
+    const dir = getCurrentDir().replace(/\/$/, '');
+    const filePath = dir + '/' + fileName;
+    const fileUrl = buildDavUrl(filePath);
+    if (!fileUrl) {
+      return false;
+    }
+
+    const panel = existing || document.createElement('section');
+    panel.className = 'sv-video-save-panel';
+    panel.dataset.fileName = fileName;
+    panel.innerHTML = [
+      '<div class="sv-video-save-panel__bar">',
+      '<div class="sv-video-save-panel__title">',
+      '<span class="sv-video-save-panel__kicker">Sunwood AI Labs / Eclipse Media Vault</span>',
+      '<strong>' + escapeHtml(fileName) + '</strong>',
+      '</div>',
+      '<div class="sv-video-save-panel__actions">',
+      '<button class="sv-video-save-panel__button sv-video-save-panel__button--primary" type="button">写真アプリに保存</button>',
+      '<a class="sv-video-save-panel__button sv-video-save-panel__button--secondary" href="' + escapeHtml(fileUrl) + '" download="' + escapeHtml(fileName) + '">MP4保存</a>',
+      '</div>',
+      '</div>',
+      '<p class="sv-video-save-panel__status" role="status"></p>',
+    ].join('');
+
+    const statusNode = panel.querySelector('.sv-video-save-panel__status');
+    const button = panel.querySelector('.sv-video-save-panel__button--primary');
+    button.addEventListener('click', function() {
+      shareVideoFile(fileUrl, fileName, statusNode);
+    });
+
+    if (!existing) {
+      mount.prepend(panel);
+    }
+    applyGlobalAppearance(readSettings());
+    return true;
+  }
+
   function getWorkspaceReadmePath() {
     const dir = getCurrentDir().replace(/\/$/, '');
     if (!dir || dir === '/') {
@@ -835,11 +943,6 @@
     canCompare: false,
   });
 
-  function getCurrentDir() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('dir') || '/';
-  }
-
   function normalizeFileName(row) {
     const text = (row.innerText || row.textContent || '').trim();
     if (!text) {
@@ -855,7 +958,7 @@
   }
 
   function shouldOpenStructured(fileName) {
-    return /\.(json|xml|md|markdown|mp4)$/i.test(fileName) && !/\.html$/i.test(fileName);
+    return /\.(json|xml|md|markdown)$/i.test(fileName) && !/\.html$/i.test(fileName);
   }
 
   document.addEventListener('click', function(event) {
@@ -881,7 +984,7 @@
     event.stopPropagation();
     event.stopImmediatePropagation();
 
-    window.OCA.Viewer.openWith(/\.mp4$/i.test(fileName) ? 'structuredviewer-video' : 'structuredviewer', {
+    window.OCA.Viewer.openWith('structuredviewer', {
       path: dir + '/' + fileName,
     });
   }, true);
@@ -890,5 +993,21 @@
     document.addEventListener('DOMContentLoaded', installWorkspaceReadmeRenderer, { once: true });
   } else {
     installWorkspaceReadmeRenderer();
+  }
+
+  let videoPanelAttempts = 0;
+  const videoPanelTimer = window.setInterval(function() {
+    videoPanelAttempts += 1;
+    upsertVideoSavePanel();
+    if (videoPanelAttempts > 120) {
+      window.clearInterval(videoPanelTimer);
+    }
+  }, 500);
+
+  if (window.MutationObserver) {
+    const observer = new MutationObserver(function() {
+      upsertVideoSavePanel();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 })();

@@ -222,6 +222,15 @@ GitHub-like document structure. Match the repository header image palette rather
 than falling back to a generic white Markdown page. After changing Markdown
 preview CSS, verify the actual `.md` file preview with a mobile viewport
 screenshot, not only a generated companion `.html`.
+When fixing Markdown list rendering, treat visible list markers as the primary
+acceptance point. Do not stop at DOM counts or indentation: verify in the
+mobile screenshot that unordered and ordered list markers are visible, and check
+computed styles such as `list-style-type` so Nextcloud/global CSS has not reset
+markers to `none`.
+If iOS Safari or an in-app browser shows a top "Nextcloud / Open" app promotion
+above the artifact, treat it as a blocker for mobile preview screenshots. Check
+for `<meta name="apple-itunes-app">`; in the bundled Nextcloud viewer, clear
+`theming.iTunesAppId` so Safari does not render the Smart App Banner.
 When changing Markdown inline rendering, verify README-style linked image
 badges such as `[![Validate](...badge.svg)](...)`. Markdown image/link syntax
 must be parsed before bare URL auto-linking, otherwise generated anchor
